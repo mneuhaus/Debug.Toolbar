@@ -1,0 +1,5 @@
+TYPO3:
+  FLOW3:
+    persistence:
+      doctrine:
+        sqlLogger: Debug\Toolbar\Logger\SqlLogger
