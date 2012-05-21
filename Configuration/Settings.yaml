@@ -1,13 +1,6 @@
 Debug:
   Profiling:
-    Classes:
-      - Foo\ContentManagement.*->getClassAnnotations.*
-      - Foo\ContentManagement\Controller.*
-      - Foo\ContentManagement\Adapters.*
-      - Foo\ContentManagement\View\.*
-      - Foo\ContentManagement\Core\Adapters\.*
-      - Foo\ContentManagement\Factory\.*
-      - Foo\ContentManagement\OptionsProvider\.*
+    Classes: []
 
 TYPO3:
   FLOW3:
