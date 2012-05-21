@@ -28,3 +28,6 @@ For Changes to take affect you need to clear you cache!
 
 
 The Icons and the general look is currently heavily based on the Symfony2 WDT and will in time be polished to integrate into the FLOW3 Style. If you would like to help style this baby feel free to drop me a line apocalip@gmail.com
+
+## Icons License
+https://github.com/symfony/symfony/blob/master/src/Symfony/Bundle/WebProfilerBundle/Resources/ICONS_LICENSE.txt
