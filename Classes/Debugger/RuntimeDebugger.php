@@ -21,8 +21,10 @@ class RuntimeDebugger extends AbstractDebugger {
 		$this->view->assign("runtime", number_format($runtime * 1000, 2));
 
         $durations = array();
-        foreach (\Debug\Toolbar\Service\DataStorage::get("Profiling:Durations") as $item) {
-        	$durations[$item["name"]] = number_format(($item["stop"] - $item["start"]) * 1000, 2, '.', '');
+        if(is_array(\Debug\Toolbar\Service\DataStorage::get("Profiling:Durations"))){
+            foreach (\Debug\Toolbar\Service\DataStorage::get("Profiling:Durations") as $item) {
+            	$durations[$item["name"]] = number_format(($item["stop"] - $item["start"]) * 1000, 2, '.', '');
+            }
         }
         arsort($durations);
         $this->view->assign("durations", $durations);
@@ -33,7 +35,6 @@ class RuntimeDebugger extends AbstractDebugger {
         if($run instanceof \SandstormMedia\PhpProfiler\Domain\Model\ProfilingRun){
             \Debug\Toolbar\Service\DataStorage::set("Profiling:Durations", $run->getTimersAsDuration());
             \Debug\Toolbar\Service\DataStorage::set("Profiling:StartTime", $run->getStartTime()->getTimestamp());
-
         }
     }
 
