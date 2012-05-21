@@ -1,0 +1,18 @@
+{namespace d=Debug\Toolbar\ViewHelpers}
+<table class="table table-striped table-bordered">
+	<f:for each="{array}" as="value" key="key">
+		<tr>
+			<th>{key}: </th>
+			<td>
+			<d:isArray condition="{value}">
+				<f:then>
+					<f:render partial="ArrayTable" arguments="{array: value}" />
+				</f:then>
+				<f:else>
+					{value}
+				</f:else>
+			</d:isArray>
+			</td>
+		</tr>
+	</f:for>
+</table>

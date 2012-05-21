@@ -1,5 +1,5 @@
 <?php
-namespace Debug\Toolbar\DataRenderer;
+namespace Debug\Toolbar\Annotations;
 
 /*                                                                        *
  * This script belongs to the FLOW3 framework.                            *
@@ -11,11 +11,9 @@ namespace Debug\Toolbar\DataRenderer;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
-
 /**
+ * @Annotation
  */
-interface DataRendererInterface {
-}
+final class Profile{ }
 
 ?>

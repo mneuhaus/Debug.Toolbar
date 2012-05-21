@@ -1,0 +1,72 @@
+<f:layout name="Default" />
+
+<f:section name="Widget">
+<div class="block">
+	<div class="block-icon">
+		<img width="28" height="28" alt="Request" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAQAAADYBBcfAAACvElEQVR42tVTbUhTYRTerDCnKVoUUr/KCZmypA9Koet0bXNLJ5XazDJ/WFaCUY0pExRZXxYiJgsxWWjkaL+yK+po1gjyR2QfmqWxtBmaBtqWGnabT++c11Fu4l/P4VzOPc95zoHznsNZodIbLDdRcKnc1Bu8DAK45ZsOnykQNMopsNooLxCknb0cDq5vml9FtHiIgpBR0R6iihYyFMTDt2Lg56ObPkI6TMGXSof1EV67IqCwisJSWliFAG/E0CfFIiebdNypcxi/1zgyFiIiZ3sJQr0RQx5frLa6k7SOKRo3oMFNR5t62h2rttKXEOKFqDCxtXNmmBokO2KKTlp3IdWuT2dYRNGKwEXEBCcL172G5FG0aIxC0kR9PBTVH1kkwQn+IqJnCE33EalVzT9GJQS1tAdD3CKicJYFrxqx7W2ejCEdZy1FiC5tZxHhLJKOZaRdQJAyV/YAvDliySALHxmxR4Hqe2iwvaOR/CEuZYJFSgYhVbZRkA8KGdEktrqnqra90NndCdkt77fjIHIhexOrfO6O3bbbOj/rqu5IptgyR3sU93QbOYhquZK4MCDp0Ina/PLsu5JvbCTRaapUdUmIV/RzoMdsk/0hWRNdAvKOmvqlN0drsJbJf1P4YsQ5lGrJeuosiOUgbOC8cto3LfOXTdVd7BqZsQKbse+0jUL6WPcesqs4MNSUTQAxGjwFiC8m3yzmqwHJBWYKBJ9WNqW/dHkpU/osch1Yj5RJfXPfSEe/2UPsN490NPfZG5CKyJmcV5ayHyzy7BMqsXfuHhGK/cjAIeSpR92gehR55D8TcQhDEKJwytBJ4fr4NULvrEM8NszfJPyxDoHYAQ1oPCWmIX4gifmDS/DV2DKeb25FHWr76yEG7/9L4YFPeiQQ4/8LkgJ8Et+NncTCsYqzXAEXa7CWdPZzGWdlyV+vST0JanfPvwAAAABJRU5ErkJggg==">
+        <span class="bubble">{mainRequest.controllerName} :: {mainRequest.controllerActionName}</span>
+        <span class="bubble">{response.status}</span>
+	</div>
+	<div class="block-popup">
+		
+		<h3>Requests</h3>
+		<f:for each="{requests}" as="request">
+		<table class="table table-striped table-bordered">
+			<tr>
+				<td colspan="2"><span class="bubble">{request.controllerObjectName} :: {request.controllerActionName}</span></td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+				<td><f:render partial="ArrayList" arguments="{array: request.arguments}" /></td>
+			</tr>
+			<f:if condition="{request.pluginArguments}">
+			<tr>
+				<td>&nbsp;</td>
+				<td><f:render partial="ArrayList" arguments="{array: request.pluginArguments}" /></td>
+			</tr>
+			</f:if>
+		</table>
+		</f:for>
+
+	</div>
+</div>
+</f:section>
+
+<f:section name="Button">
+	
+</f:section>
+
+<f:section name="Panel">
+	<h3>Routes</h3>
+	<table class="table table-striped table-bordered">
+		<f:for each="{routes}" as="route">
+		<tr>
+			<td>{route}</td>
+		</tr>
+		</f:for>
+	</table>
+
+	<h3>Requests</h3>
+	<f:for each="{requests}" as="request">
+	<table class="table table-striped table-bordered">
+		<tr>
+			<td colspan="2"><span class="bubble">{request.controllerObjectName} :: {request.controllerActionName}</span></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><f:render partial="ArrayList" arguments="{array: request.arguments}" /></td>
+		</tr>
+		<f:if condition="{request.pluginArguments}">
+		<tr>
+			<td>&nbsp;</td>
+			<td><f:render partial="ArrayList" arguments="{array: request.pluginArguments}" /></td>
+		</tr>
+		</f:if>
+	</table>
+	</f:for>
+
+	<f:for each="{arrays}" as="array" key="title">
+	<h3>{title}</h3>
+	<f:render partial="ArrayTable" arguments="{array: array}" />
+	</f:for>
+</f:section>

@@ -17,8 +17,12 @@ use TYPO3\FLOW3\Annotations as FLOW3;
  */
 class DataStorage {
 	static protected $container = array();
+	static protected $frozen = false;
 
 	static function set($name, $mixed){
+		if(self::$frozen)
+			return;
+
 		self::$container[$name] = $mixed;
 	}
 
@@ -34,6 +38,9 @@ class DataStorage {
 	}
 
 	static function add($name, $key = null, $value = null){
+		if(self::$frozen)
+			return;
+
 		if(isset(self::$container[$name]) && !is_array(self::$container[$name])){
 			self::$container[$name] = array();
 		}
@@ -44,7 +51,36 @@ class DataStorage {
 	}
 
 	static function remove($name){
+		if(self::$frozen)
+			return;
+
 		unset(self::$container[$name]);
+	}
+
+	static function init(){
+		if(self::$frozen)
+			return;
+
+		self::set("Environment:Token", uniqid());
+	}
+
+	static function save() {
+		if(self::$frozen)
+			return;
+
+		$token = self::$container["Environment:Token"];
+		$filename = FLOW3_PATH_DATA . '/Logs/Debug/' . $token . '.debug';
+		file_put_contents($filename, serialize(self::$container));
+	}
+
+	static function load($token) {
+		$filename = FLOW3_PATH_DATA . '/Logs/Debug/' . $token . '.debug';
+		$data = file_get_contents($filename);
+		self::$container = @unserialize($data);
+	}
+
+	static function freeze(){
+		self::$frozen = true;
 	}
 }
 

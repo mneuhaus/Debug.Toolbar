@@ -1,3 +1,14 @@
+Debug:
+  Profiling:
+    Classes:
+      - Foo\ContentManagement.*->getClassAnnotations.*
+      - Foo\ContentManagement\Controller.*
+      - Foo\ContentManagement\Adapters.*
+      - Foo\ContentManagement\View\.*
+      - Foo\ContentManagement\Core\Adapters\.*
+      - Foo\ContentManagement\Factory\.*
+      - Foo\ContentManagement\OptionsProvider\.*
+
 TYPO3:
   FLOW3:
     persistence:

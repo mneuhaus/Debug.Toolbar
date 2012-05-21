@@ -8,7 +8,7 @@
 		bottom: 0;
 		left: 0;
 		width: 100%;
-		height: 35px;
+		height: 40px;
 	}
 	.debug-toolbar-item {
 		white-space: nowrap;
@@ -60,6 +60,7 @@
         margin-left: -1px;
         bottom: 38px;
         border-bottom: 1px solid #fff;
+        color: #111;
 	}
 
 	.debug-toolbar-item:hover .block-icon {
@@ -72,16 +73,23 @@
     .debug-toolbar-item td,
     .debug-toolbar-item th {
     	padding: 3px 4px;
+    	color: #111;
+    	text-align: left;
     }
-    
+
     .debug-toolbar-item th { 
     	font-weight: bold;
+    }
+
+    .debug-toolbar-item a {
+    	color: white;
+    	text-decoration: none;
     }
 </style>
 <div class="debug-toolbar">
 <f:for each="{dataRenderers}" as="dataRenderer">
 	<div class="debug-toolbar-item">
-		<f:format.raw>{dataRenderer}</f:format.raw>
+		<f:format.raw>{dataRenderer.widget}</f:format.raw>
 	</div>
 </f:for>
 </div>

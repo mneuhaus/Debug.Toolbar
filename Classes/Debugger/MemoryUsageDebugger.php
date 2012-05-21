@@ -1,5 +1,5 @@
 <?php
-namespace Debug\Toolbar\DataRenderer;
+namespace Debug\Toolbar\Debugger;
 
 /*                                                                        *
  * This script belongs to the FLOW3 framework.                            *
@@ -15,15 +15,13 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 
 /**
  */
-class SqlDataRenderer extends AbstractDataRenderer {
-    public function render() {
-		$this->view->setTemplatePathAndFilename("resource://Debug.Toolbar/Private/Data/Sql.html");
-		$times = \Debug\Toolbar\Service\DataStorage::get("SqlLogger:Times");
-		if(!is_array($times))
-			$times = array();
-		$this->view->assign("queries", count($times));
-		$this->view->assign("time", array_sum($times));
-		return $this->view->render();
+class MemoryUsageDebugger extends AbstractDebugger {
+    public function assignVariables() {
+    	#{{ '%.1f'|format(collector.memory / 1024 / 1024) }}
+    	$memoryUsage = memory_get_peak_usage(true) / 1024 / 1024;
+    	$memoryUsage = number_format( $memoryUsage, 1 ) . " MB";
+
+		$this->view->assign("memoryUsage", $memoryUsage);
     }
 }
 

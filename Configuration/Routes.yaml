@@ -1,0 +1,35 @@
+#                                                                        #
+# Default subroutes configuration for the Blog package                   #
+#                                                                        #
+
+# $Id: Routes.yaml 3886 2010-02-28 17:03:50Z robert $
+
+-
+  name: 'Profiles'
+  uriPattern: 'debug/profile'
+  appendExceedingArguments: true
+  defaults:
+    '@action':      'index'
+    '@package':     'Debug.Toolbar'
+    '@controller':  'Profile'
+    '@format':      'html'
+
+-
+  name: 'Profile'
+  uriPattern: 'debug/profile/{token}'
+  appendExceedingArguments: true
+  defaults:
+    '@action':      'index'
+    '@package':     'Debug.Toolbar'
+    '@controller':  'Profile'
+    '@format':      'html'
+
+-
+  name: 'Profile with Renderer'
+  uriPattern: 'debug/profile/{token}/{renderer}'
+  appendExceedingArguments: true
+  defaults:
+    '@action':      'index'
+    '@package':     'Debug.Toolbar'
+    '@controller':  'Profile'
+    '@format':      'html'

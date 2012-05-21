@@ -19,11 +19,11 @@ use TYPO3\FLOW3\Annotations as FLOW3;
  */
 class View {
 	/**
-	 * @var \TYPO3\FLOW3\Reflection\ReflectionService
+	 * @var \Debug\Toolbar\Service\Debugger
 	 * @author Marc Neuhaus <apocalip@gmail.com>
 	 * @FLOW3\Inject
 	 */
-	protected $reflectionService;
+	protected $debugger;
 
 	/**
 	 * @var \TYPO3\Fluid\View\StandaloneView
@@ -32,28 +32,16 @@ class View {
 
 	public function __construct() {
 		$this->view = new \TYPO3\Fluid\View\StandaloneView();
-
-		// if (isset($this->options['partialRootPath'])) {
-		// 	$standaloneView->setPartialRootPath($this->options['partialRootPath']);
-		// }
-
-		// if (isset($this->options['layoutRootPath'])) {
-		// 	$standaloneView->setLayoutRootPath($this->options['layoutRootPath']);
-		// }
-
-		// if (isset($this->options['variables'])) {
-		// 	$standaloneView->assignMultiple($this->options['variables']);
-		// }
+		$this->view->setTemplatePathAndFilename("resource://Debug.Toolbar/Private/Toolbar.html");
 	}
     
     public function render() {
-		$this->view->setTemplatePathAndFilename("resource://Debug.Toolbar/Private/Toolbar.html");
-		$dataRenderers = array();
-		foreach($this->reflectionService->getAllImplementationClassNamesForInterface('Debug\Toolbar\DataRenderer\DataRendererInterface') as $dataRendererClass) {
-			$dataRenderer = new $dataRendererClass();
-			$dataRenderers[] = $dataRenderer->render();
+		$debuggers = $this->debugger->getDebuggers();
+		foreach($debuggers as $debugger) {
+			$debugger->collectBeforeToolbarRendering();
 		}
-		$this->view->assign("dataRenderers", $dataRenderers);
+		$this->view->assign("dataRenderers", $debuggers);
+
 		return $this->view->render();
     }
 }

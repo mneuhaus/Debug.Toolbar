@@ -29,6 +29,17 @@ class SqlLogger implements \Doctrine\DBAL\Logging\SQLLogger {
 	public function startQuery($sql, array $params = NULL, array $types = NULL) {
 		$this->start = microtime();
 		\Debug\Toolbar\Service\DataStorage::add("SqlLogger:Queries", $sql);
+		\Debug\Toolbar\Service\DataStorage::add("SqlLogger:Params", $params);
+		\Debug\Toolbar\Service\DataStorage::add("SqlLogger:Types", $types);
+
+		$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		foreach ($backtrace as $key => $value) {
+			if($key == 0) continue;
+			if(!isset($value["class"])) continue;
+			if(stristr($value["class"], "Doctrine\\")) continue;
+			if(stristr($value["class"], "TYPO3\FLOW3")) continue;
+			\Debug\Toolbar\Service\DataStorage::add("SqlLogger:Origins", $value);
+		}
 	}
 
 	/**

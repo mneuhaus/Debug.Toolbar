@@ -10,6 +10,25 @@ use TYPO3\FLOW3\Annotations as FLOW3;
  * @FLOW3\Scope("singleton")
  */
 class Package extends BasePackage {
+	public function boot(\TYPO3\FLOW3\Core\Bootstrap $bootstrap) {
+		if (!file_exists(FLOW3_PATH_DATA . 'Logs/Debug')) {
+			mkdir(FLOW3_PATH_DATA . 'Logs/Debug');
+		}
 
+		\Debug\Toolbar\Service\DataStorage::init();
+
+		#foreach ($bootstrap->getObjectManager()->get("Debug\Toolbar\Service\Debugger")->getDebuggers() as $debugger) {
+		#	$debugger->collectBoot();
+		#}
+
+		$bootstrap->getSignalSlotDispatcher()->connect('TYPO3\FLOW3\Core\Bootstrap', 'bootstrapShuttingDown', function($runLevel) use($bootstrap) {
+			if($runLevel == "Runtime"){
+				\Debug\Toolbar\Service\DataStorage::save();
+				foreach ($bootstrap->getObjectManager()->get("Debug\Toolbar\Service\Debugger")->getDebuggers() as $debugger) {
+					$debugger->collectShutdown();
+				}
+			}
+		});
+	}
 }
 ?>

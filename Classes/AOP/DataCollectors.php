@@ -32,17 +32,59 @@ class DataCollectors {
      * Intercept the Response to attach the Toolbar
      *
      * @param \TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint
-     * @FLOW3\Before("method(TYPO3\FLOW3\Mvc\Dispatcher->dispatch(*))")
+     * @FLOW3\Before("method(TYPO3\FLOW3\Mvc\ActionRequest->setDispatched())")
      * @return void
      */
-    public function catchActionRequest(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
-        $request = $joinPoint->getMethodArgument("request");
-        if(is_object($request))
-            \Debug\Toolbar\Service\DataStorage::set("Request:ActionRequest", $request);
-        
-        $response = $joinPoint->getMethodArgument("response");
-            if(is_object($response))
-                \Debug\Toolbar\Service\DataStorage::set("Request:ActionResponse", $response);
+    public function catchActionRequests(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
+        $request = $joinPoint->getProxy();
+        \Debug\Toolbar\Service\DataStorage::add("Request:ActionRequests", $request);
+    }
+
+    /**
+     * Intercept the Response to attach the Toolbar
+     *
+     * @param \TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint
+     * @FLOW3\Before("method(TYPO3\FLOW3\Http\Response->__construct())")
+     * @return void
+     */
+    public function catchResponses(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
+        $response = $joinPoint->getProxy();
+        \Debug\Toolbar\Service\DataStorage::add("Responses", $response);
+    }
+
+    /**
+     *
+     * @FLOW3\After("method(TYPO3\FLOW3\Mvc\Routing\Route->matches(*))")
+     * @param \TYPO3\FLOW3\Aop\JoinPointInterface $joinPoint The current join point
+     * @return array Result of the target method
+     */
+    public function logRoutes(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
+        $route = $joinPoint->getProxy();
+        \Debug\Toolbar\Service\DataStorage::add("Route:Routes", $route->getUriPattern());
+    }
+
+    /**
+     *
+     * @FLOW3\Before("filter(Debug\Toolbar\AOP\PointcutSettingsClassFilter)")
+     * @param \TYPO3\FLOW3\Aop\JoinPointInterface $joinPoint The current join point
+     * @return array Result of the target method
+     */
+    public function profilerStart(\TYPO3\FLOW3\Aop\JoinPointInterface $joinPoint) {
+        $run = \SandstormMedia\PhpProfiler\Profiler::getInstance()->getRun();
+        $tag = $joinPoint->getClassName() . "::" . $joinPoint->getMethodName();
+        $run->startTimer($tag);
+    }
+
+    /**
+     *
+     * @FLOW3\After("filter(Debug\Toolbar\AOP\PointcutSettingsClassFilter)")
+     * @param \TYPO3\FLOW3\Aop\JoinPointInterface $joinPoint The current join point
+     * @return array Result of the target method
+     */
+    public function profilerStop(\TYPO3\FLOW3\Aop\JoinPointInterface $joinPoint) {
+        $run = \SandstormMedia\PhpProfiler\Profiler::getInstance()->getRun();
+        $tag = $joinPoint->getClassName() . "::" . $joinPoint->getMethodName();
+        $run->stopTimer($tag);
     }
 }
 

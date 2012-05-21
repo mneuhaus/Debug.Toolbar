@@ -1,5 +1,5 @@
 <?php
-namespace Debug\Toolbar\DataRenderer;
+namespace Debug\Toolbar\Debugger;
 
 /*                                                                        *
  * This script belongs to the FLOW3 framework.                            *
@@ -15,15 +15,7 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 
 /**
  */
-class MemoryUsageDataRenderer extends AbstractDataRenderer {
-    public function render() {
-    	#{{ '%.1f'|format(collector.memory / 1024 / 1024) }}
-    	$memoryUsage = memory_get_peak_usage(true) / 1024 / 1024;
-    	$memoryUsage = number_format( $memoryUsage, 1 ) . " MB";
-
-		$this->view->assign("memoryUsage", $memoryUsage);
-		return $this->view->render();
-    }
+interface DebuggerInterface {
 }
 
 ?>
