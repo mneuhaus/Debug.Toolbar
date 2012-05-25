@@ -51,6 +51,9 @@ class SqlDebugger extends AbstractDebugger {
     }
 
     public function formatQueries($merged) {
+        if(empty($merged))
+            return $merged;
+        
     	$keywords = array(
     		"SELECT" 		=> "<b>SELECT</b>",
     		"FROM" 			=> "\n<b>FROM</b>",

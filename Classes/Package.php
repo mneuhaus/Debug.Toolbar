@@ -17,9 +17,11 @@ class Package extends BasePackage {
 
 		\Debug\Toolbar\Service\DataStorage::init();
 		
-		$profiler = \SandstormMedia\PhpProfiler\Profiler::getInstance();
-		if($profiler->getRun() instanceof \SandstormMedia\PhpProfiler\Domain\Model\EmptyProfilingRun)
-			$profiler->start();
+		if(!class_exists("SandstormMedia\Plumber\Package")){
+			$profiler = \SandstormMedia\PhpProfiler\Profiler::getInstance();
+			if($profiler->getRun() instanceof \SandstormMedia\PhpProfiler\Domain\Model\EmptyProfilingRun)
+				$profiler->start();
+		}
 
 		#foreach ($bootstrap->getObjectManager()->get("Debug\Toolbar\Service\Debugger")->getDebuggers() as $debugger) {
 		#	$debugger->collectBoot();
