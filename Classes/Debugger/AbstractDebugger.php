@@ -16,38 +16,60 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 /**
  */
 abstract class AbstractDebugger implements DebuggerInterface {
-	public function __construct() {
-		$this->view = new \TYPO3\Fluid\View\StandaloneView();
+    /**
+     * @var \Debug\Toolbar\Service\Debugger
+     * @author Marc Neuhaus <apocalip@gmail.com>
+     * @FLOW3\Inject
+     */
+    protected $debugger;
 
-		$this->view->setPartialRootPath("resource://Debug.Toolbar/Private/Debugger/Partials");
-		$this->view->setLayoutRootPath("resource://Debug.Toolbar/Private/Debugger/Layouts");
-		
-		$renderer = $this->getName();
-		$package = $this->getPackage();
-		$this->template = $template = "resource://".$package."/Private/Debugger/".$renderer.".html";
-		$this->view->setTemplatePathAndFilename($template);
-	}
+    /**
+     *
+     * @var integer
+     **/
+    protected $priority = 0;
+
+	public function __construct() {}
+
+    public function resolveView() {
+        $this->view = new \TYPO3\Fluid\View\StandaloneView();
+        $this->view->setFormat("html");
+
+        $this->view->setPartialRootPath("resource://Debug.Toolbar/Private/Debugger/Partials");
+        $this->view->setLayoutRootPath("resource://Debug.Toolbar/Private/Debugger/Layouts");
+        
+        $renderer = $this->getName();
+        $package = $this->getPackage();
+        $this->template = $template = "resource://".$package."/Private/Debugger/".$renderer.".html";
+        $this->view->setTemplatePathAndFilename($template);
+    }
     
     public function render() {
+        $this->resolveView();
 		$this->assignVariables();
 		return $this->view->render();
     }
 
     public function renderWidget() {
+        $this->resolveView();
+        $this->view->assign("token", \Debug\Toolbar\Service\DataStorage::get("Environment:Token"));
     	$this->assignVariables();
 		return $this->view->renderSection("Widget", null, true);	
     }
 
     public function getWidget() {
+        $this->resolveView();
     	return $this->renderWidget();
     }
 
     public function renderPanel() {
+        $this->resolveView();
     	$this->assignVariables();
 		return $this->view->renderSection("Panel", null, true);	
     }
 
     public function getPanel() {
+        $this->resolveView();
     	return $this->renderPanel();
     }
 
@@ -77,6 +99,26 @@ abstract class AbstractDebugger implements DebuggerInterface {
 
     public function collectShutdown() {
     	
+    }
+
+    public function getPriority() {
+        return $this->priority;
+    }
+
+    public function set($key, $value) {
+        \Debug\Toolbar\Service\DataStorage::set($this->getName() . ":" . $key, $value);
+    }
+
+    public function add($key, $value) {
+        \Debug\Toolbar\Service\DataStorage::add($this->getName() . ":" . $key, $value);
+    }
+
+    public function get($key) {
+        return \Debug\Toolbar\Service\DataStorage::get($this->getName() . ":" . $key);
+    }
+
+    public function has($key) {
+        return \Debug\Toolbar\Service\DataStorage::has($this->getName() . ":" . $key);
     }
 }
 

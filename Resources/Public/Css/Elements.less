@@ -1,0 +1,77 @@
+.bubble {
+	display: inline-block;
+	color: white;
+	background-color: #666;
+	padding: 3px 6px;
+	border-radius: 3px;
+	margin-bottom: 2px;
+	vertical-align: middle;
+	min-width: 6px;
+	min-height: 13px;
+	border-radius: 12px;
+
+	&.green {
+		background: #759E1A;
+	}
+
+	&.yellow {
+		background: #D3D504;
+		color: #666;
+	}
+
+	&.red {
+		background: #A33;
+	}
+}
+
+.arrow {
+	background: url(../Images/Arrow.jpg) no-repeat right center;
+	border-right: none !important;
+	margin-right: -5px;
+	padding-right: 5px !important;
+}
+
+.arrow:hover{
+	background-image: none;
+}
+
+.array-list {
+	li {
+		list-style: none;
+	}
+}
+
+.tabs{
+	margin-bottom: -10px;
+	margin-right: 50px;
+	.tab {
+		border: 1px solid #eee;
+		padding: 3px;
+		margin-bottom: 10px;
+	}
+	.tab-header {
+		padding: 10px 5px;
+		font-weight: bold;
+	}
+	.tab-content {
+		display: none;
+	}
+	.tab:hover .tab-content {
+		display: block;
+	}
+}
+
+.indent-left {
+	padding-left: 15px;
+}
+
+.table-definition-style {
+    th {
+        background: #ddd !important;
+    }
+
+    td {
+        background: #fefefe !important;
+        padding-left: 15px;
+    }
+}

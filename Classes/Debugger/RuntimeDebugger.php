@@ -21,19 +21,30 @@ class RuntimeDebugger extends AbstractDebugger {
 		$this->view->assign("runtime", number_format($runtime * 1000, 2));
 
         $durations = array();
+        $references = array();
         if(is_array(\Debug\Toolbar\Service\DataStorage::get("Profiling:Durations"))){
-            foreach (\Debug\Toolbar\Service\DataStorage::get("Profiling:Durations") as $item) {
-            	$durations[$item["name"]] = number_format(($item["stop"] - $item["start"]) * 1000, 2, '.', '');
+            $timers = \Debug\Toolbar\Service\DataStorage::get("Profiling:Durations");
+            foreach ($timers as $key => $item) {
+                if(stristr($item["name"], "Boostrap Sequence:")) continue;
+                $durations[$item["name"]] = $item;
             }
         }
-        arsort($durations);
+
+        #arsort($durations);
         $this->view->assign("durations", $durations);
+
+        $this->view->assign("data", json_encode(
+            array(
+                "name" => "durations",
+                "children" => $durations
+            )
+        ));
     }
 
     public function collectShutdown() {
         $run = \SandstormMedia\PhpProfiler\Profiler::getInstance()->getRun();
         if($run instanceof \SandstormMedia\PhpProfiler\Domain\Model\ProfilingRun){
-            \Debug\Toolbar\Service\DataStorage::set("Profiling:Durations", $run->getTimersAsDuration());
+            \Debug\Toolbar\Service\DataStorage::set("Profiling:Durations", $run->getTimersAsDuration(true));
             \Debug\Toolbar\Service\DataStorage::set("Profiling:StartTime", $run->getStartTime()->getTimestamp());
         }
     }

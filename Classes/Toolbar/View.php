@@ -33,6 +33,7 @@ class View {
 	public function __construct() {
 		$this->view = new \TYPO3\Fluid\View\StandaloneView();
 		$this->view->setTemplatePathAndFilename("resource://Debug.Toolbar/Private/Toolbar.html");
+		$this->view->setFormat("html");
 	}
     
     public function render() {
@@ -40,10 +41,35 @@ class View {
 		foreach($debuggers as $debugger) {
 			$debugger->collectBeforeToolbarRendering();
 		}
+
+		\Debug\Toolbar\Service\DataStorage::save();
 		$this->view->assign("dataRenderers", $debuggers);
 
 		return $this->view->render();
     }
+
+    static public function attachToolbar($content) {
+	    $toolbar = new \Debug\Toolbar\Toolbar\View();
+		$content = str_replace("</body>", "\t".$toolbar->render()."\n\t</body>", $content);
+		return $content;
+	}
+
+    static public function handleRedirects($request, $response) {
+		$previousTokens = array();
+		if($request->hasArgument("__previousDebugToken")){
+			$previousTokens = explode(",", $request->getArgument("__previousDebugToken"));
+			\Debug\Toolbar\Service\DataStorage::set("Request:RedirectedRequest", implode(",", $previousTokens));
+		}
+
+		if(intval($response->getStatus()) == 303){
+			$previousTokens[] = \Debug\Toolbar\Service\DataStorage::get("Environment:Token");
+	    	$location = $response->getHeaders()->get("Location");
+	    	$location.= stristr($location, "?") ? "&" : "?";
+	    	$location.= "__previousDebugToken=" . implode(",", $previousTokens);
+			$response->getHeaders()->set('Location', $location);
+			$response->setContent('<html><head><meta http-equiv="refresh" content="0;url='.$location.'"/></head></html>');
+        }
+	}
 }
 
 ?>

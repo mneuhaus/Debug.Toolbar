@@ -32,18 +32,6 @@ class DataCollectors {
      * Intercept the Response to attach the Toolbar
      *
      * @param \TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint
-     * @FLOW3\Before("method(TYPO3\FLOW3\Mvc\ActionRequest->setDispatched())")
-     * @return void
-     */
-    public function catchActionRequests(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
-        $request = $joinPoint->getProxy();
-        \Debug\Toolbar\Service\DataStorage::add("Request:ActionRequests", $request);
-    }
-
-    /**
-     * Intercept the Response to attach the Toolbar
-     *
-     * @param \TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint
      * @FLOW3\Before("method(TYPO3\FLOW3\Http\Response->__construct())")
      * @return void
      */
@@ -85,6 +73,21 @@ class DataCollectors {
         $run = \SandstormMedia\PhpProfiler\Profiler::getInstance()->getRun();
         $tag = $joinPoint->getClassName() . "::" . $joinPoint->getMethodName();
         $run->stopTimer($tag);
+    }
+
+    /**
+     *
+     * @param \TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint
+     * @FLOW3\After("method(TYPO3\FLOW3\Security\Policy\PolicyService->getPrivilegesForJoinPoint(*))")
+     * @return void
+     */
+    public function collectRoleVotes(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
+        $role = $joinPoint->getMethodArgument("role");
+        $privileges = $joinPoint->getResult();
+        \Debug\Toolbar\Service\DataStorage::add("Security:RoleVotes", array(
+            "role" => $role,
+            "privileges" => $privileges
+        ));
     }
 }
 

@@ -1,16 +1,23 @@
 {namespace d=Debug\Toolbar\ViewHelpers}
-<ul class="array-list">
-	<f:for each="{array}" as="value" key="key">
-		<li>
-			<b>{key}: </b>
-			<d:isArray condition="{value}">
-				<f:then>
-					<f:render partial="ArrayList" arguments="{array: value}" />
-				</f:then>
-				<f:else>
-					{value}
-				</f:else>
-			</d:isArray>
-		</li>
-	</f:for>
-</ul>
+<f:if condition="{array}">
+	<f:then>
+		<ul class="array-list">
+			<f:for each="{array}" as="value" key="key">
+				<li>
+					<b>{key}: </b>
+					<d:isArray condition="{value}">
+						<f:then>
+							<f:render partial="ArrayList" arguments="{array: value}" />
+						</f:then>
+						<f:else>
+							{value}
+						</f:else>
+					</d:isArray>
+				</li>
+			</f:for>
+		</ul>
+	</f:then>
+	<f:else>
+		<p>[Empty]</p>
+	</f:else>
+</f:if>

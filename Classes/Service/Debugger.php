@@ -32,14 +32,30 @@ class Debugger {
 	protected $debugger = array();
 
 	public function __construct(\TYPO3\FLOW3\Reflection\ReflectionService $reflectionService) {
+		$priorities = array();
+		$debuggers = array();
 		foreach($reflectionService->getAllImplementationClassNamesForInterface('Debug\Toolbar\Debugger\DebuggerInterface') as $debuggerClass) {
 			$debugger = new $debuggerClass();
-			$this->debugger[] = $debugger;
+			$debuggers[$debuggerClass] = $debugger;
+			$priorities[$debuggerClass] = $debugger->getPriority();
+		}
+		arsort($priorities);
+		foreach ($priorities as $class => $priority) {
+			$this->debugger[] = $debuggers[$class];
 		}
 	}
 
 	public function getDebuggers() {
 		return $this->debugger;
+	}
+
+	public function getData($token) {
+		$filename = FLOW3_PATH_DATA . '/Logs/Debug/' . $token . '.debug';
+		if(file_exists($filename)){
+			$data = file_get_contents($filename);
+			return @unserialize($data);
+		}
+		return array();
 	}
 }
 

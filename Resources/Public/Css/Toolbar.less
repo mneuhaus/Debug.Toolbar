@@ -1,0 +1,136 @@
+.debug-toolbar {	
+	@import "../Bootstrap/less/bootstrap.less";
+	@import "Elements.less";
+
+	background: #444;
+	background: #CBCBCB;
+	background-image: -moz-linear-gradient(-90deg, #E8E8E8, #CBCBCB) !important;
+	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E8E8E8), to(#CBCBCB)) !important;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 40px;
+    font-family: Helvetica;
+    font-size: 13px;
+    line-height: 14px;
+
+	.block {
+		white-space: nowrap;
+		color: #2F2F2F;
+		display: block;
+		min-height: 28px;
+		border-right: 1px solid #E4E4E4;
+		padding: 0;	
+		float: left;
+		cursor: default;
+		position: relative;
+
+        a {
+            color: #2F2F2F;
+        }
+        a:hover {
+            text-decoration: none;
+        }
+
+        span.icon {
+            display: inline-block;
+            margin-top: 3px;
+            font-weight: normal;
+        }
+
+		.block-icon {
+			display: block;
+			text-decoration: none;
+			margin: 0;
+			padding: 8px 8px 5px;
+			min-width: 20px;
+			text-align: center;
+			vertical-align: middle;
+			height: 30px;
+
+			img {
+				border-width: 0;
+				vertical-align: middle;
+				margin-right: 5px;
+				margin-top: -3px;
+			}
+		}
+
+        .block-popup {
+            max-height: 400px;
+            overflow: auto;
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #bbb;
+            padding: 10px 8px;
+            margin-left: -1px;
+            bottom: 43px;
+            border-bottom: 1px solid #fff;
+            color: #111;
+
+            td, th, p, div, a, span, li, ol, dd, dt {
+                font-size: 11px;
+                line-height: 12px;
+            }
+
+            .small-break {
+                margin-bottom: 10px;
+            }
+        }
+
+        .block-popup-full{
+            width: 800px;
+        }
+	}
+
+
+
+
+
+	.block:hover .block-icon {
+        background-color: #fff;
+    }
+    .block:hover .block-popup {
+        display: block;
+    }
+
+    .block td,
+    .block th {
+    	padding: 3px 4px;
+    	color: #111;
+    	text-align: left;
+    }
+
+    .block th { 
+    	font-weight: bold;
+    }
+
+    .block .bubble a {
+    	color: white;
+    	text-decoration: none;
+    }
+    span.icon {
+    	font-weight: bold;
+    	font-weight: 16px;
+    }
+
+    .block-popup table ul {
+    	margin-left: 10px;
+    }
+
+    body .block-popup table td {
+    	padding: 4px;
+    	font-size: 12px;
+    }
+
+    body .block-popup table {
+    	margin-bottom: 5px;
+    }
+
+}
+
+body #t3-footer {
+    bottom: 40px;
+}

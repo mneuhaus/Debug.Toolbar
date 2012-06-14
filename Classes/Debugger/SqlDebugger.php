@@ -69,7 +69,7 @@ class SqlDebugger extends AbstractDebugger {
     		$newQuery = "";
     		foreach ($parts as $position => $part) {
     			$newQuery.= $part;
-    			if(isset($value["params"][$position])) {
+    			if(isset($value["types"][$position])) {
                     switch ($value["types"][$position]) {
                         case 'string':
                             $newQuery.= '"<b>'.$value["params"][$position].'</b>"';

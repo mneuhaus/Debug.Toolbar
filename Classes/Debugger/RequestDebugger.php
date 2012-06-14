@@ -16,28 +16,70 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 /**
  */
 class RequestDebugger extends AbstractDebugger {
+	/**
+	 * @var integer
+	 **/
+	protected $priority = 10;
+
     public function assignVariables() {
-		$requests = \Debug\Toolbar\Service\DataStorage::get("Request:ActionRequests");
-		$this->view->assign("requests", $requests);
-		foreach ($requests as $request) {
-			if($request->getParentRequest() instanceof \TYPO3\FLOW3\Http\Request)
-				break;
-		}
-		$this->view->assign("mainRequest", $request);
-
-		$response = current(\Debug\Toolbar\Service\DataStorage::get("Responses"));
-		$this->view->assign("response", $response);		
-
-		$this->view->assign("routes", \Debug\Toolbar\Service\DataStorage::get("Route:Routes"));
+		$tokens = array();
 		
-		$arrays = array(
-			"Get" => \Debug\Toolbar\Service\DataStorage::get("Request:Get"),
-			"Post" => \Debug\Toolbar\Service\DataStorage::get("Request:Post"),
-			"Cookie" => \Debug\Toolbar\Service\DataStorage::get("Request:Cookie"),
-			"Server" => \Debug\Toolbar\Service\DataStorage::get("Request:Server"),
-		#	"Session" => \Debug\Toolbar\Service\DataStorage::get("Request:Session"),
-		);
-		$this->view->assign("arrays", $arrays);
+		if($this->has("RedirectedRequest"))
+			$tokens = explode(",", $this->get("RedirectedRequest"));
+
+		$tokens[] = \Debug\Toolbar\Service\DataStorage::get("Environment:Token");
+		$this->view->assign("tokens", $tokens);
+
+		$requests = array();
+		$steps = array();
+    	foreach ($tokens as $key => $token) {
+    		$step = array();
+	    	$data = $this->debugger->getData($token);
+	    	if(empty($data) || !isset($data["Request:ActionRequests"])) continue;
+    		$requests = array();
+    		foreach ($data["Request:ActionRequests"] as $key => $value) {
+    			$requests[spl_object_hash($value)] = $value;
+    		}
+
+    		$this->view->assign("requests", $requests);
+    		$step["token"] = $token;
+    		$step["requests"] = $requests;
+			foreach ($requests as $request) {
+				if($request->getParentRequest() instanceof \TYPO3\FLOW3\Http\Request)
+					break;
+			}
+			$this->view->assign("mainRequest", $request);
+			$step["mainRequest"] = $request;
+
+			if (isset($data["Request:Responses"])) {
+				$response = current($data["Request:Responses"]);
+				$this->view->assign("response", $response);
+				$step["response"] = $response;
+				$step["responseCode"] = intval($response->getStatus());
+				
+				$step["responseColor"] = "green";
+
+				if($step["responseCode"] >= 300)
+					$step["responseColor"] = "yellow";
+
+				if($step["responseCode"] >= 400)
+					$step["responseColor"] = "red";
+			}
+
+			$this->view->assign("routes", $data["Route:Routes"]);
+			
+			$arrays = array(
+				"Get" => \Debug\Toolbar\Service\DataStorage::get("Request:Get"),
+				"Post" => \Debug\Toolbar\Service\DataStorage::get("Request:Post"),
+				"Cookie" => \Debug\Toolbar\Service\DataStorage::get("Request:Cookie"),
+				"Server" => \Debug\Toolbar\Service\DataStorage::get("Request:Server"),
+			#	"Session" => \Debug\Toolbar\Service\DataStorage::get("Request:Session"),
+			);
+			$this->view->assign("arrays", $arrays);
+
+			$steps[] = $step;
+    	}
+    	$this->view->assign("steps", $steps);
     }
 
     public function collectBeforeToolbarRendering() {
@@ -46,6 +88,10 @@ class RequestDebugger extends AbstractDebugger {
     	\Debug\Toolbar\Service\DataStorage::set("Request:Cookie", $_COOKIE);
     	\Debug\Toolbar\Service\DataStorage::set("Request:Server", $_SERVER);
     	#\Debug\Toolbar\Service\DataStorage::set("Request:Session", $_SESSION);
+    }
+
+    public function collectRequests($request) {
+    	$this->add("ActionRequests", $request);
     }
 }
 

@@ -15,6 +15,12 @@ use Debug\Toolbar\Annotations as Debug;
  * @FLOW3\Scope("singleton")
  */
 class ProfileController extends \TYPO3\FLOW3\Mvc\Controller\ActionController {
+	/**
+	 * @var \Debug\Toolbar\Service\Debugger
+	 * @author Marc Neuhaus <apocalip@gmail.com>
+	 * @FLOW3\Inject
+	 */
+	protected $debugger;
 
 	/**
 	 * Index action
@@ -23,8 +29,7 @@ class ProfileController extends \TYPO3\FLOW3\Mvc\Controller\ActionController {
 	 */
 	public function indexAction() {
 		$dataRenderers = array();
-		foreach($this->reflectionService->getAllImplementationClassNamesForInterface('Debug\Toolbar\Debugger\DebuggerInterface') as $dataRendererClass) {
-			$dataRenderer = new $dataRendererClass();
+		foreach ($this->debugger->getDebuggers() as $dataRenderer) {
 			$dataRenderers[$dataRenderer->getName()] = $dataRenderer;
 		}
 		$this->view->assign("dataRenderers", $dataRenderers);
@@ -43,6 +48,9 @@ class ProfileController extends \TYPO3\FLOW3\Mvc\Controller\ActionController {
 		}
 	}
 
+	public function testAction() {
+		$this->redirectToUri("http://phoenix/typo3/management");
+	}
 }
 
 ?>

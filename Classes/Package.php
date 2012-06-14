@@ -11,6 +11,8 @@ use TYPO3\FLOW3\Annotations as FLOW3;
  */
 class Package extends BasePackage {
 	public function boot(\TYPO3\FLOW3\Core\Bootstrap $bootstrap) {
+		$bootstrap->registerRequestHandler(new \Debug\Toolbar\Http\RequestHandler($bootstrap));
+
 		if (!file_exists(FLOW3_PATH_DATA . 'Logs/Debug')) {
 			mkdir(FLOW3_PATH_DATA . 'Logs/Debug');
 		}
@@ -27,7 +29,8 @@ class Package extends BasePackage {
 		#	$debugger->collectBoot();
 		#}
 
-		$bootstrap->getSignalSlotDispatcher()->connect('TYPO3\FLOW3\Core\Bootstrap', 'bootstrapShuttingDown', function($runLevel) use($bootstrap) {
+		$dispatcher = $bootstrap->getSignalSlotDispatcher();
+		$dispatcher->connect('TYPO3\FLOW3\Core\Bootstrap', 'bootstrapShuttingDown', function($runLevel) use($bootstrap) {
 			if($runLevel == "Runtime"){
 				\Debug\Toolbar\Service\DataStorage::save();
 				foreach ($bootstrap->getObjectManager()->get("Debug\Toolbar\Service\Debugger")->getDebuggers() as $debugger) {
@@ -35,6 +38,21 @@ class Package extends BasePackage {
 				}
 			}
 		});
+
+        $dispatcher->connect(
+                'TYPO3\FLOW3\Http\Response', 'postProcessResponseContent',
+                'Debug\Toolbar\Toolbar\View', 'receivePostProcessResponseContent'
+        );
+
+        $dispatcher->connect(
+                'TYPO3\FLOW3\Mvc\ActionRequest', 'requestDispatched',
+                'Debug\Toolbar\Debugger\RequestDebugger', 'collectRequests'
+        );
+
+        $dispatcher->connect(
+                'TYPO3\FLOW3\Aop\Advice\AbstractAdvice', 'adviceInvoked',
+                'Debug\Toolbar\Debugger\AOPDebugger', 'collectAdvices'
+        );
 	}
 }
 ?>

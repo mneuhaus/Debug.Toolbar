@@ -29,6 +29,12 @@ class EnvironmentDebugger extends AbstractDebugger {
 	 */
 	protected $objectManager;
 
+    /**
+     * @FLOW3\Inject
+     * @var \TYPO3\FLOW3\Session\SessionInterface
+     */
+    protected $session;
+
     public function assignVariables() {
      //    'symfony_version' => Kernel::VERSION,
      //    'name'            => $this->kernel->getName(),
@@ -40,6 +46,10 @@ class EnvironmentDebugger extends AbstractDebugger {
         $this->view->assign("php_version", PHP_VERSION);
         $this->view->assign("context", $this->objectManager->getContext());
         $this->view->assign("flow3_version", FLOW3_VERSION_BRANCH);
+        
+        $memoryUsage = memory_get_peak_usage(true) / 1024 / 1024;
+        $memoryUsage = number_format( $memoryUsage, 1 ) . " MB";
+        $this->view->assign("memoryUsage", $memoryUsage);
 
         $configurations = array(
 #        	"Settings" => \TYPO3\FLOW3\Configuration\ConfigurationManager::CONFIGURATION_TYPE_SETTINGS,
@@ -56,8 +66,9 @@ class EnvironmentDebugger extends AbstractDebugger {
 
         #$configurations["Constants"] = \Symfony\Component\Yaml\Yaml::dump(get_defined_constants(), 10);
 	    $this->view->assign("configurations", $configurations);
+    }
 
-        $this->view->assign("token", \Debug\Toolbar\Service\DataStorage::get("Environment:Token"));
+    public function collectBeforeToolbarRendering() {
     }
 }
 
