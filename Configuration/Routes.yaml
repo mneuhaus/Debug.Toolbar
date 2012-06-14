@@ -33,3 +33,13 @@
     '@package':     'Debug.Toolbar'
     '@controller':  'Profile'
     '@format':      'html'
+
+-
+  name: 'Profiles'
+  uriPattern: 'debug/profile-test'
+  appendExceedingArguments: true
+  defaults:
+    '@action':      'test'
+    '@package':     'Debug.Toolbar'
+    '@controller':  'Profile'
+    '@format':      'html'

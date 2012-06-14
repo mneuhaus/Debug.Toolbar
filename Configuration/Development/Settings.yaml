@@ -7,6 +7,6 @@ TYPO3:
     persistence:
       doctrine:
         sqlLogger: Debug\Toolbar\Logger\SqlLogger
-    # error:
-    #   exceptionHandler:
-    #     className: 'Debug\Toolbar\Error\DebugExceptionHandler'
+    error:
+      exceptionHandler:
+        className: 'Debug\Toolbar\Error\DebugExceptionHandler'
