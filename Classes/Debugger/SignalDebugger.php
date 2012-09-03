@@ -16,16 +16,24 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 /**
  */
 class SignalDebugger extends AbstractDebugger {
+
     /**
      * @var \TYPO3\FLOW3\Object\ObjectManagerInterface
      * @FLOW3\Inject
      */
     protected $objectManager;
 
+    /**
+    * TODO: Document this Method!
+    */
     public function assignVariables() {
-        $classes = $this->objectManager->get("TYPO3\FLOW3\SignalSlot\Dispatcher")->getSignals();
-        $this->view->assign("classes", $classes);
+        $dispatcher = $this->objectManager->get('TYPO3\\FLOW3\\SignalSlot\\Dispatcher');
+        if(method_exists($dispatcher, "getSignals")){
+            $classes = $this->objectManager->get('TYPO3\\FLOW3\\SignalSlot\\Dispatcher')->getSignals();
+            $this->view->assign('classes', $classes);
+        }
     }
+
 }
 
 ?>

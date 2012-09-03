@@ -19,17 +19,17 @@ use TYPO3\FLOW3\Annotations as FLOW3;
  */
 class LoadDataViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractConditionViewHelper {
 
-	/**
-	 * renders <f:then> child if $condition is true, otherwise renders <f:else> child.
-	 *
-	 * @param string $token
-	 * @return string the rendered string
-	 * @api
-	 */
-	public function render($token) {
-		
-	}
-}
+    /**
+     * renders <f:then> child if $condition is true, otherwise renders <f:else> child.
+     *
+     * @param string $token
+     * @return string the rendered string
+     * @api
+     */
+    public function render($token) {
 
+    }
+
+}
 
 ?>

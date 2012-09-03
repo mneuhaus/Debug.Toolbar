@@ -14,49 +14,68 @@ namespace Debug\Toolbar\Service;
 use TYPO3\FLOW3\Annotations as FLOW3;
 
 /**
- * 
+ *
  * @FLOW3\Scope("singleton")
  */
 class Debugger {
-	/**
-	 * @var \TYPO3\FLOW3\Reflection\ReflectionService
-	 * @author Marc Neuhaus <apocalip@gmail.com>
-	 * @FLOW3\Inject
-	 */
-	protected $reflectionService;
 
-	/**
-	 *
-	 * @var array
-	 **/
-	protected $debugger = array();
+    /**
+     *
+     * @var array
+     **/
+    protected $debugger = array(
 
-	public function __construct(\TYPO3\FLOW3\Reflection\ReflectionService $reflectionService) {
-		$priorities = array();
-		$debuggers = array();
-		foreach($reflectionService->getAllImplementationClassNamesForInterface('Debug\Toolbar\Debugger\DebuggerInterface') as $debuggerClass) {
-			$debugger = new $debuggerClass();
-			$debuggers[$debuggerClass] = $debugger;
-			$priorities[$debuggerClass] = $debugger->getPriority();
-		}
-		arsort($priorities);
-		foreach ($priorities as $class => $priority) {
-			$this->debugger[] = $debuggers[$class];
-		}
-	}
+    );
 
-	public function getDebuggers() {
-		return $this->debugger;
-	}
+    /**
+     * @var \TYPO3\FLOW3\Reflection\ReflectionService
+     * @author Marc Neuhaus <apocalip@gmail.com>
+     * @FLOW3\Inject
+     */
+    protected $reflectionService;
 
-	public function getData($token) {
-		$filename = FLOW3_PATH_DATA . '/Logs/Debug/' . $token . '.debug';
-		if(file_exists($filename)){
-			$data = file_get_contents($filename);
-			return @unserialize($data);
-		}
-		return array();
-	}
+    /**
+    * TODO: Document this Method! ( __construct )
+    */
+    public function __construct(\TYPO3\FLOW3\Reflection\ReflectionService $reflectionService) {
+        $priorities = array(
+
+        );
+        $debuggers = array(
+
+        );
+        foreach ($reflectionService->getAllImplementationClassNamesForInterface('Debug\\Toolbar\\Debugger\\DebuggerInterface') as $debuggerClass) {
+            $debugger = new $debuggerClass();
+            $debuggers[$debuggerClass] = $debugger;
+            $priorities[$debuggerClass] = $debugger->getPriority();
+        }
+        arsort($priorities);
+        foreach ($priorities as $class => $priority) {
+            $this->debugger[] = $debuggers[$class];
+        }
+    }
+
+    /**
+    * TODO: Document this Method! ( getData )
+    */
+    public function getData($token) {
+        $filename = ((FLOW3_PATH_DATA . '/Logs/Debug/') . $token) . '.debug';
+        if (file_exists($filename)) {
+            $data = file_get_contents($filename);
+            return @unserialize($data);
+        }
+        return array(
+
+        );
+    }
+
+    /**
+    * TODO: Document this Method! ( getDebuggers )
+    */
+    public function getDebuggers() {
+        return $this->debugger;
+    }
+
 }
 
 ?>

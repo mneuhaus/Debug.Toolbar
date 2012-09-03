@@ -16,50 +16,63 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 /**
  */
 class AOPDebugger extends AbstractDebugger {
-	/**
-	 * @var \TYPO3\FLOW3\Reflection\ReflectionService
-	 * @author Marc Neuhaus <apocalip@gmail.com>
-	 * @FLOW3\Inject
-	 */
-	protected $reflectionService;
 
+    /**
+     * @var \TYPO3\FLOW3\Reflection\ReflectionService
+     * @author Marc Neuhaus <apocalip@gmail.com>
+     * @FLOW3\Inject
+     */
+    protected $reflectionService;
+
+    /**
+     * TODO: Document this Method!
+     */
     public function assignVariables() {
-        $rawAdvices = (array) \Debug\Toolbar\Service\DataStorage::get("AOP:Advices");
-        $advices = array();
+        $rawAdvices = (array) \Debug\Toolbar\Service\DataStorage::get('AOP:Advices');
+        $advices = array(
+
+        );
         foreach ($rawAdvices as $key => $value) {
-            if(stristr($value["adviceClass"], "Debug\Toolbar") && true){
-            }else{
-                $key = implode(".", $value);
-                if(isset($advices[$key])){
-                    $advices[$key]["counter"]++;
-                }else{
+            if (stristr($value['adviceClass'], 'Debug\\Toolbar') && true) {
+
+            } else {
+                $key = implode('.', $value);
+                if (isset($advices[$key])) {
+                    $advices[$key]['counter']++;
+                } else {
                     $advices[$key] = $value;
-                    $advices[$key]["counter"] = 1;
-                    $reflectionClass = new \ReflectionClass($value["adviceClass"]);
-                    $advices[$key]["classComment"] = $this->cleanupComment($reflectionClass->getDocComment());
-                    $advices[$key]["methodComment"] = $this->cleanupComment($reflectionClass->getMethod($value["adviceMethodName"])->getDocComment());
+                    $advices[$key]['counter'] = 1;
+                    $reflectionClass = new \ReflectionClass($value['adviceClass']);
+                    $advices[$key]['classComment'] = $this->cleanupComment($reflectionClass->getDocComment());
+                    $advices[$key]['methodComment'] = $this->cleanupComment($reflectionClass->getMethod($value['adviceMethodName'])->getDocComment());
                 }
             }
-
         }
-        $this->view->assign("advices", $advices);
+        $this->view->assign('advices', $advices);
     }
 
+    /**
+     * TODO: Document this Method!
+     */
     public function cleanupComment($comment) {
-    	$comment = preg_replace("/^[^A-Za-z0-9@]*/m", "", $comment);
-    	$comment = preg_replace("/@.+\n/", "", $comment);
-    	$comment = trim($comment);
-    	return $comment;
+        $comment = preg_replace('/^[^A-Za-z0-9@]*/m', '', $comment);
+        $comment = preg_replace('/@.+\n/', '', $comment);
+        $comment = trim($comment);
+        return $comment;
     }
 
+    /**
+     * TODO: Document this Method!
+     */
     public function collectAdvices($adviceObject, $methodName, $joinPoint) {
-        $this->add("Advices", array(
-            "adviceClass" => get_class($adviceObject),
-            "adviceMethodName" => $methodName,
-            "joinPointClass" => $joinPoint->getClassName(),
-            "joinPointMethodName" => $joinPoint->getMethodName()
+        $this->add('Advices', array(
+            'adviceClass' => get_class($adviceObject),
+            'adviceMethodName' => $methodName,
+            'joinPointClass' => $joinPoint->getClassName(),
+            'joinPointMethodName' => $joinPoint->getMethodName()
         ));
     }
+
 }
 
 ?>

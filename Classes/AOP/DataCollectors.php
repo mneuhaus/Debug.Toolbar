@@ -17,17 +17,7 @@ use TYPO3\FLOW3\Annotations as FLOW3;
  * @FLOW3\Aspect
  */
 class DataCollectors {
-    /**
-     * Intercept the Response to attach the Toolbar
-     *
-     * @param \TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint
-     * @FLOW3\Before("method(TYPO3\FLOW3\Http\RequestHandler->handleRequest())")
-     * @return void
-     */
-    public function setStartTime(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
-        \Debug\Toolbar\Service\DataStorage::set("Runtime:Start", microtime());
-    }
-    
+
     /**
      * Intercept the Response to attach the Toolbar
      *
@@ -37,7 +27,22 @@ class DataCollectors {
      */
     public function catchResponses(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
         $response = $joinPoint->getProxy();
-        \Debug\Toolbar\Service\DataStorage::add("Responses", $response);
+        \Debug\Toolbar\Service\DataStorage::add('Responses', $response);
+    }
+
+    /**
+     *
+     * @param \TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint
+     * @FLOW3\After("method(TYPO3\FLOW3\Security\Policy\PolicyService->getPrivilegesForJoinPoint(*))")
+     * @return void
+     */
+    public function collectRoleVotes(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
+        $role = $joinPoint->getMethodArgument('role');
+        $privileges = $joinPoint->getResult();
+        \Debug\Toolbar\Service\DataStorage::add('Security:RoleVotes', array(
+            'role' => $role,
+            'privileges' => $privileges
+        ));
     }
 
     /**
@@ -48,7 +53,7 @@ class DataCollectors {
      */
     public function logRoutes(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
         $route = $joinPoint->getProxy();
-        \Debug\Toolbar\Service\DataStorage::add("Route:Routes", $route->getUriPattern());
+        \Debug\Toolbar\Service\DataStorage::add('Route:Routes', $route->getUriPattern());
     }
 
     /**
@@ -59,7 +64,7 @@ class DataCollectors {
      */
     public function profilerStart(\TYPO3\FLOW3\Aop\JoinPointInterface $joinPoint) {
         $run = \SandstormMedia\PhpProfiler\Profiler::getInstance()->getRun();
-        $tag = $joinPoint->getClassName() . "::" . $joinPoint->getMethodName();
+        $tag = ($joinPoint->getClassName() . '::') . $joinPoint->getMethodName();
         $run->startTimer($tag);
     }
 
@@ -71,24 +76,21 @@ class DataCollectors {
      */
     public function profilerStop(\TYPO3\FLOW3\Aop\JoinPointInterface $joinPoint) {
         $run = \SandstormMedia\PhpProfiler\Profiler::getInstance()->getRun();
-        $tag = $joinPoint->getClassName() . "::" . $joinPoint->getMethodName();
+        $tag = ($joinPoint->getClassName() . '::') . $joinPoint->getMethodName();
         $run->stopTimer($tag);
     }
 
     /**
+     * Intercept the Response to attach the Toolbar
      *
      * @param \TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint
-     * @FLOW3\After("method(TYPO3\FLOW3\Security\Policy\PolicyService->getPrivilegesForJoinPoint(*))")
+     * @FLOW3\Before("method(TYPO3\FLOW3\Http\RequestHandler->handleRequest())")
      * @return void
      */
-    public function collectRoleVotes(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
-        $role = $joinPoint->getMethodArgument("role");
-        $privileges = $joinPoint->getResult();
-        \Debug\Toolbar\Service\DataStorage::add("Security:RoleVotes", array(
-            "role" => $role,
-            "privileges" => $privileges
-        ));
+    public function setStartTime(\TYPO3\FLOW3\AOP\JoinPointInterface $joinPoint) {
+        \Debug\Toolbar\Service\DataStorage::set('Runtime:Start', microtime());
     }
+
 }
 
 ?>

@@ -4214,7 +4214,6 @@
   visibility: hidden;
 }
 .debug-toolbar .bubble {
-  display: inline-block;
   color: white;
   background-color: #666;
   padding: 3px 6px;
@@ -4294,7 +4293,6 @@
   text-decoration: none;
 }
 .debug-toolbar .block span.icon {
-  display: inline-block;
   margin-top: 3px;
   font-weight: normal;
 }

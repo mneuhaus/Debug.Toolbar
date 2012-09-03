@@ -16,9 +16,14 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 /**
  */
 class RouteDebugger extends AbstractDebugger {
+
+    /**
+    * TODO: Document this Method! ( assignVariables )
+    */
     public function assignVariables() {
-		$this->view->assign("routes", \Debug\Toolbar\Service\DataStorage::get("Route:Routes"));
+        $this->view->assign('routes', \Debug\Toolbar\Service\DataStorage::get('Route:Routes'));
     }
+
 }
 
 ?>

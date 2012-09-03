@@ -16,43 +16,55 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 /**
  */
 class RuntimeDebugger extends AbstractDebugger {
-    public function assignVariables() {
-        $runtime = \Debug\Toolbar\Service\DataStorage::get("Profiling:StopTime") - \Debug\Toolbar\Service\DataStorage::get("Profiling:StartTime");
-		$this->view->assign("runtime", number_format($runtime * 1000, 2));
 
-        $durations = array();
-        $references = array();
-        if(is_array(\Debug\Toolbar\Service\DataStorage::get("Profiling:Durations"))){
-            $timers = \Debug\Toolbar\Service\DataStorage::get("Profiling:Durations");
+    /**
+    * TODO: Document this Method! ( assignVariables )
+    */
+    public function assignVariables() {
+        $runtime = \Debug\Toolbar\Service\DataStorage::get('Profiling:StopTime') - \Debug\Toolbar\Service\DataStorage::get('Profiling:StartTime');
+        $this->view->assign('runtime', number_format($runtime * 1000, 2));
+        $durations = array(
+
+        );
+        $references = array(
+
+        );
+        if (is_array(\Debug\Toolbar\Service\DataStorage::get('Profiling:Durations'))) {
+            $timers = \Debug\Toolbar\Service\DataStorage::get('Profiling:Durations');
             foreach ($timers as $key => $item) {
-                if(stristr($item["name"], "Boostrap Sequence:")) continue;
-                $durations[$item["name"]] = $item;
+                if (stristr($item['name'], 'Boostrap Sequence:')) {
+                    continue;
+                }
+                $durations[$item['name']] = $item;
             }
         }
-
         #arsort($durations);
-        $this->view->assign("durations", $durations);
-
-        $this->view->assign("data", json_encode(
-            array(
-                "name" => "durations",
-                "children" => $durations
-            )
-        ));
+        $this->view->assign('durations', $durations);
+        $this->view->assign('data', json_encode(array(
+            'name' => 'durations',
+            'children' => $durations
+        )));
     }
 
+    /**
+    * TODO: Document this Method! ( collectBeforeToolbarRendering )
+    */
+    public function collectBeforeToolbarRendering() {
+        $this->collectShutdown();
+        \Debug\Toolbar\Service\DataStorage::set('Profiling:StopTime', microtime(true));
+    }
+
+    /**
+    * TODO: Document this Method! ( collectShutdown )
+    */
     public function collectShutdown() {
         $run = \SandstormMedia\PhpProfiler\Profiler::getInstance()->getRun();
-        if($run instanceof \SandstormMedia\PhpProfiler\Domain\Model\ProfilingRun){
-            \Debug\Toolbar\Service\DataStorage::set("Profiling:Durations", $run->getTimersAsDuration(true));
-            \Debug\Toolbar\Service\DataStorage::set("Profiling:StartTime", $run->getStartTime()->getTimestamp());
+        if ($run instanceof \SandstormMedia\PhpProfiler\Domain\Model\ProfilingRun) {
+            \Debug\Toolbar\Service\DataStorage::set('Profiling:Durations', $run->getTimersAsDuration(true));
+            \Debug\Toolbar\Service\DataStorage::set('Profiling:StartTime', $run->getStartTime()->getTimestamp());
         }
     }
 
-    public function collectBeforeToolbarRendering() {
-        $this->collectShutdown();
-        \Debug\Toolbar\Service\DataStorage::set("Profiling:StopTime", microtime(true));
-    }
 }
 
 ?>

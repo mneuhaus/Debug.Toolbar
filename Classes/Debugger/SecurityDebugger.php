@@ -16,6 +16,7 @@ use TYPO3\FLOW3\Annotations as FLOW3;
 /**
  */
 class SecurityDebugger extends AbstractDebugger {
+
     /**
      * @var \TYPO3\FLOW3\Security\Context
      * @FLOW3\Inject
@@ -27,47 +28,55 @@ class SecurityDebugger extends AbstractDebugger {
      **/
     protected $priority = 0;
 
+    /**
+    * TODO: Document this Method!
+    */
     public function assignVariables() {
-        $this->view->assign("roles", $this->get("Roles"));
-        $this->view->assign("tokens", $this->get("Tokens"));
-        $this->view->assign("account", $this->get("Account"));
+        $this->view->assign('roles', $this->get('Roles'));
+        $this->view->assign('tokens', $this->get('Tokens'));
+        $this->view->assign('account', $this->get('Account'));
+        $votes = array(
 
-        $votes = array();
+        );
         $privilege = array(
             'PRIVILEGE_ABSTAIN',
             'PRIVILEGE_GRANT',
             'PRIVILEGE_DENY'
         );
-        $roleVotes = \Debug\Toolbar\Service\DataStorage::get("Security:RoleVotes");
-        if(is_array($roleVotes)){
+        $roleVotes = \Debug\Toolbar\Service\DataStorage::get('Security:RoleVotes');
+        if (is_array($roleVotes)) {
             foreach ($roleVotes as $key => $value) {
                 $vote = array(
-                    "role" => (string) $value["role"]
+                    'role' => (string) $value['role']
                 );
-                $vote["privilege"] = "";
-                foreach ($value["privileges"] as $k => $p) {
-                    $vote["privilege"] = $privilege[$p];
+                $vote['privilege'] = '';
+                if(is_array($value['privileges'])){
+                    foreach ($value['privileges'] as $k => $p) {
+                        $vote['privilege'] = $privilege[$p];
+                    }
                 }
-                $votes[$value["role"] . ":" . $vote["privilege"]] = $vote;
+                $votes[($value['role'] . ':') . $vote['privilege']] = $vote;
             }
         } else {
-            $roles = $this->get("Roles");
+            $roles = $this->get('Roles');
             foreach ($roles as $key => $value) {
                 $vote = array(
-                    "role" => (string) $value
+                    'role' => (string) $value
                 );
                 $votes[] = $vote;
             }
         }
-        $this->view->assign("votes", $votes);
+        $this->view->assign('votes', $votes);
     }
 
+    /**
+    * TODO: Document this Method!
+    */
     public function collectBeforeToolbarRendering() {
-        $this->set("Roles", $this->context->getRoles());
-        $this->set("Account", $this->context->getAccount());
-        #if($this->context->isInitialized())
-            #$this->set("Tokens", $this->context->getAuthenticationTokens());
+        $this->set('Roles', $this->context->getRoles());
+        $this->set('Account', $this->context->getAccount());
     }
+
 }
 
 ?>

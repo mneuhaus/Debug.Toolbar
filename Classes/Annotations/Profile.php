@@ -14,6 +14,9 @@ namespace Debug\Toolbar\Annotations;
 /**
  * @Annotation
  */
-final class Profile{ }
+final class Profile {
+
+
+}
 
 ?>

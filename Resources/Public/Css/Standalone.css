@@ -4199,7 +4199,6 @@ a.badge:hover {
   visibility: hidden;
 }
 .bubble {
-  display: inline-block;
   color: white;
   background-color: #666;
   padding: 3px 6px;

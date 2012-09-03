@@ -19,21 +19,21 @@ use TYPO3\FLOW3\Annotations as FLOW3;
  */
 class IsArrayViewHelper extends \TYPO3\Fluid\Core\ViewHelper\AbstractConditionViewHelper {
 
-	/**
-	 * renders <f:then> child if $condition is true, otherwise renders <f:else> child.
-	 *
-	 * @param mixed $condition View helper condition
-	 * @return string the rendered string
-	 * @api
-	 */
-	public function render($condition) {
-		if (is_array($condition)) {
-			return $this->renderThenChild();
-		} else {
-			return $this->renderElseChild();
-		}
-	}
-}
+    /**
+     * renders <f:then> child if $condition is true, otherwise renders <f:else> child.
+     *
+     * @param mixed $condition View helper condition
+     * @return string the rendered string
+     * @api
+     */
+    public function render($condition) {
+        if (is_array($condition)) {
+            return $this->renderThenChild();
+        } else {
+            return $this->renderElseChild();
+        }
+    }
 
+}
 
 ?>
