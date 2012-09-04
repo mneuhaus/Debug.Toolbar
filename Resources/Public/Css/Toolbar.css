@@ -21,6 +21,7 @@
   font-family: Helvetica;
   font-size: 13px;
   line-height: 14px;
+  z-index: 9999;
 }
 .debug-toolbar article,
 .debug-toolbar aside,
@@ -131,7 +132,7 @@
   clear: both;
 }
 .debug-toolbar .hide-text {
-  font: 0/0 a;
+  font: a;
   color: transparent;
   text-shadow: none;
   background-color: transparent;
@@ -2019,7 +2020,7 @@
 .debug-toolbar .open {
   *z-index: 1000;
 }
-.debug-toolbar .open  > .dropdown-menu {
+.debug-toolbar .open > .dropdown-menu {
   display: block;
 }
 .debug-toolbar .pull-right > .dropdown-menu {
@@ -4376,6 +4377,9 @@
 }
 .debug-toolbar body .block-popup table {
   margin-bottom: 5px;
+}
+body {
+  margin-bottom: 50px !important;
 }
 body #t3-footer {
   bottom: 40px;
