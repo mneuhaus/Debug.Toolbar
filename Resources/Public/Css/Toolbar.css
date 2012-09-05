@@ -4306,6 +4306,7 @@
   text-align: center;
   vertical-align: middle;
   height: 30px;
+  line-height: 22px;
 }
 .debug-toolbar .block .block-icon img {
   border-width: 0;
