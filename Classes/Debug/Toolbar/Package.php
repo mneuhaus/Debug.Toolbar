@@ -1,20 +1,20 @@
 <?php
 namespace Debug\Toolbar;
 
-use TYPO3\FLOW3\Package\Package as BasePackage;
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Package\Package as BasePackage;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  * Package base class of the Debug.Toolbar package.
  *
- * @FLOW3\Scope("singleton")
+ * @Flow\Scope("singleton")
  */
 class Package extends BasePackage {
-	public function boot(\TYPO3\FLOW3\Core\Bootstrap $bootstrap) {
+	public function boot(\TYPO3\Flow\Core\Bootstrap $bootstrap) {
     	$bootstrap->registerRequestHandler(new \Debug\Toolbar\Http\RequestHandler($bootstrap));
 
-    	if (!file_exists(FLOW3_PATH_DATA . 'Logs/Debug')) {
-    		mkdir(FLOW3_PATH_DATA . 'Logs/Debug');
+    	if (!file_exists(FLOW_PATH_DATA . 'Logs/Debug')) {
+    		mkdir(FLOW_PATH_DATA . 'Logs/Debug');
     	}
 
     	\Debug\Toolbar\Service\DataStorage::init();
@@ -54,17 +54,17 @@ class Package extends BasePackage {
 
 
         $dispatcher->connect(
-                'TYPO3\FLOW3\Http\Response', 'postProcessResponseContent',
+                'TYPO3\Flow\Http\Response', 'postProcessResponseContent',
                 'Debug\Toolbar\Toolbar\View', 'receivePostProcessResponseContent'
         );
 
         $dispatcher->connect(
-                'TYPO3\FLOW3\Mvc\ActionRequest', 'requestDispatched',
+                'TYPO3\Flow\Mvc\ActionRequest', 'requestDispatched',
                 'Debug\Toolbar\Debugger\RequestDebugger', 'collectRequests'
         );
 
         $dispatcher->connect(
-                'TYPO3\FLOW3\Aop\Advice\AbstractAdvice', 'adviceInvoked',
+                'TYPO3\Flow\Aop\Advice\AbstractAdvice', 'adviceInvoked',
                 'Debug\Toolbar\Debugger\AOPDebugger', 'collectAdvices'
         );
 	}

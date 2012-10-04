@@ -2,19 +2,19 @@
 namespace Debug\Toolbar\Controller;
 
 /*                                                                        *
- * This script belongs to the FLOW3 package "Debug.Toolbar".              *
+ * This script belongs to the Flow package "Debug.Toolbar".              *
  *                                                                        *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 use Debug\Toolbar\Annotations as Debug;
 
 /**
  * Profile controller for the Debug.Toolbar package
  *
- * @FLOW3\Scope("singleton")
+ * @Flow\Scope("singleton")
  */
-class ProfileController extends \TYPO3\FLOW3\Mvc\Controller\ActionController {
+class ProfileController extends \TYPO3\Flow\Mvc\Controller\ActionController {
 
     /**
      * Index action

@@ -2,7 +2,7 @@
 namespace Debug\Toolbar\Service;
 
 /*                                                                        *
- * This script belongs to the FLOW3 framework.                            *
+ * This script belongs to the Flow framework.                            *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -11,17 +11,17 @@ namespace Debug\Toolbar\Service;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  *
- * @FLOW3\Scope("singleton")
+ * @Flow\Scope("singleton")
  */
 class Collector {
     protected static $modules = array();
 
     /**
-     * @var \TYPO3\FLOW3\Mvc\Dispatcher
+     * @var \TYPO3\Flow\Mvc\Dispatcher
      */
     protected static $dispatcher;
 

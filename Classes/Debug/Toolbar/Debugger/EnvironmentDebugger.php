@@ -2,7 +2,7 @@
 namespace Debug\Toolbar\Debugger;
 
 /*                                                                        *
- * This script belongs to the FLOW3 framework.                            *
+ * This script belongs to the Flow framework.                            *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -11,28 +11,28 @@ namespace Debug\Toolbar\Debugger;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  */
 class EnvironmentDebugger {
 
     /**
-     * @var \TYPO3\FLOW3\Configuration\ConfigurationManager
-     * @FLOW3\Inject
+     * @var \TYPO3\Flow\Configuration\ConfigurationManager
+     * @Flow\Inject
      */
     protected $configurationManager;
 
     /**
-     * @var \TYPO3\FLOW3\Object\ObjectManagerInterface
+     * @var \TYPO3\Flow\Object\ObjectManagerInterface
      * @author Marc Neuhaus <apocalip@gmail.com>
-     * @FLOW3\Inject
+     * @Flow\Inject
      */
     protected $objectManager;
 
     /**
-     * @FLOW3\Inject
-     * @var \TYPO3\FLOW3\Session\SessionInterface
+     * @Flow\Inject
+     * @var \TYPO3\Flow\Session\SessionInterface
      */
     protected $session;
 
@@ -52,14 +52,14 @@ class EnvironmentDebugger {
             ->getPopup()
                 ->addTable(array(
                     'PHP Version' => PHP_VERSION,
-                    'FLOW3 Context' => $this->objectManager->getContext(),
-                    'FLOW3 Version' => FLOW3_VERSION_BRANCH
+                    'Flow Context' => $this->objectManager->getContext(),
+                    'Flow Version' => FLOW_VERSION_BRANCH
                 ))
             ->getPanel()
                 ->addTable(array(
                     'PHP Version' => PHP_VERSION,
-                    'FLOW3 Context' => $this->objectManager->getContext(),
-                    'FLOW3 Version' => FLOW3_VERSION_BRANCH
+                    'Flow Context' => $this->objectManager->getContext(),
+                    'Flow Version' => FLOW_VERSION_BRANCH
                 ));
         return;
         #$configurations = array();

@@ -2,7 +2,7 @@
 namespace Debug\Toolbar\Debugger;
 
 /*                                                                        *
- * This script belongs to the FLOW3 framework.                            *
+ * This script belongs to the Flow framework.                            *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -11,15 +11,15 @@ namespace Debug\Toolbar\Debugger;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  */
 class SignalDebugger {
 
     /**
-     * @var \TYPO3\FLOW3\Object\ObjectManagerInterface
-     * @FLOW3\Inject
+     * @var \TYPO3\Flow\Object\ObjectManagerInterface
+     * @Flow\Inject
      */
     protected $objectManager;
 
@@ -27,9 +27,9 @@ class SignalDebugger {
     * TODO: Document this Method!
     */
     public function preToolbarRendering() {
-        $dispatcher = $this->objectManager->get('TYPO3\\FLOW3\\SignalSlot\\Dispatcher');
+        $dispatcher = $this->objectManager->get('TYPO3\\Flow\\SignalSlot\\Dispatcher');
         if(method_exists($dispatcher, "getSignals")){
-            $classes = $this->objectManager->get('TYPO3\\FLOW3\\SignalSlot\\Dispatcher')->getSignals();
+            $classes = $this->objectManager->get('TYPO3\\Flow\\SignalSlot\\Dispatcher')->getSignals();
             \Debug\Toolbar\Service\Collector::getModule("Signals")
                 ->getToolbar()
                     ->addText('Signals')

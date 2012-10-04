@@ -2,7 +2,7 @@
 namespace Debug\Toolbar\Http;
 
 /*                                                                        *
- * This script belongs to the FLOW3 framework.                            *
+ * This script belongs to the Flow framework.                            *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -11,23 +11,23 @@ namespace Debug\Toolbar\Http;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
-use TYPO3\FLOW3\Core\Bootstrap;
-use TYPO3\FLOW3\Core\RequestHandlerInterface;
-use TYPO3\FLOW3\Configuration\ConfigurationManager;
-use TYPO3\FLOW3\Security\Exception\AccessDeniedException;
+use TYPO3\Flow\Annotations as Flow;
+use TYPO3\Flow\Core\Bootstrap;
+use TYPO3\Flow\Core\RequestHandlerInterface;
+use TYPO3\Flow\Configuration\ConfigurationManager;
+use TYPO3\Flow\Security\Exception\AccessDeniedException;
 
 /**
  * A request handler which can handle HTTP requests.
  *
- * @FLOW3\Scope("singleton")
- * @FLOW3\Proxy("disable")
+ * @Flow\Scope("singleton")
+ * @Flow\Proxy("disable")
  */
-class RequestHandler extends \TYPO3\FLOW3\Http\RequestHandler {
+class RequestHandler extends \TYPO3\Flow\Http\RequestHandler {
 
     /**
-     * @FLOW3\Inject
-     * @var \TYPO3\FLOW3\Session\SessionInterface
+     * @Flow\Inject
+     * @var \TYPO3\Flow\Session\SessionInterface
      */
     protected $session;
 
@@ -49,8 +49,8 @@ class RequestHandler extends \TYPO3\FLOW3\Http\RequestHandler {
      */
     public function handleRequest() {
         // Create the request very early so the Resource Management has a chance to grab it:
-        $this->request = \TYPO3\FLOW3\Http\Request::createFromEnvironment();
-        $this->response = new \TYPO3\FLOW3\Http\Response();
+        $this->request = \TYPO3\Flow\Http\Request::createFromEnvironment();
+        $this->response = new \TYPO3\Flow\Http\Response();
         $this->boot();
         $this->resolveDependencies();
         $this->request->injectSettings($this->settings);
@@ -74,7 +74,7 @@ class RequestHandler extends \TYPO3\FLOW3\Http\RequestHandler {
      * Emits a signal before the toolbar gets rendered
      *
      * @return void
-     * @FLOW3\Signal
+     * @Flow\Signal
      */
     protected function emitAboutToRenderDebugToolbar() {
         $this->bootstrap->getSignalSlotDispatcher()->dispatch(__CLASS__, 'aboutToRenderDebugToolbar', array());

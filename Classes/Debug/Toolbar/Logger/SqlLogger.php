@@ -2,7 +2,7 @@
 namespace Debug\Toolbar\Logger;
 
 /*                                                                        *
- * This script belongs to the FLOW3 framework.                            *
+ * This script belongs to the Flow framework.                            *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -12,7 +12,7 @@ namespace Debug\Toolbar\Logger;
  *                                                                        */
 
 /**
- * A SQL logger that logs to a FLOW3 logger.
+ * A SQL logger that logs to a Flow logger.
  *
  */
 class SqlLogger implements \Doctrine\DBAL\Logging\SQLLogger {
@@ -41,7 +41,7 @@ class SqlLogger implements \Doctrine\DBAL\Logging\SQLLogger {
             if (stristr($value['class'], 'Doctrine\\')) {
                 continue;
             }
-            if (stristr($value['class'], 'TYPO3\\FLOW3')) {
+            if (stristr($value['class'], 'TYPO3\\Flow')) {
                 continue;
             }
             \Debug\Toolbar\Service\DataStorage::add('SqlLogger:Origins', $value);

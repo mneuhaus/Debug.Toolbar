@@ -2,7 +2,7 @@
 namespace Debug\Toolbar\Service;
 
 /*                                                                        *
- * This script belongs to the FLOW3 framework.                            *
+ * This script belongs to the Flow framework.                            *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -11,7 +11,7 @@ namespace Debug\Toolbar\Service;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  */
@@ -87,7 +87,7 @@ class DataStorage {
     * TODO: Document this Method! ( load )
     */
     static function load($token) {
-        $filename = ((FLOW3_PATH_DATA . '/Logs/Debug/') . $token) . '.debug';
+        $filename = ((FLOW_PATH_DATA . '/Logs/Debug/') . $token) . '.debug';
         $data = file_get_contents($filename);
         self::$container = @unserialize($data);
         \Debug\Toolbar\Service\Collector::setModules(self::get('Modules'));
@@ -111,7 +111,7 @@ class DataStorage {
             return;
         }
         $token = self::$container['Environment:Token'];
-        $filename = ((FLOW3_PATH_DATA . '/Logs/Debug/') . $token) . '.debug';
+        $filename = ((FLOW_PATH_DATA . '/Logs/Debug/') . $token) . '.debug';
         file_put_contents($filename, serialize(self::$container));
     }
 
@@ -129,7 +129,7 @@ class DataStorage {
     * TODO: Document this Method! ( getData )
     */
     static function getData($token) {
-        $filename = ((FLOW3_PATH_DATA . '/Logs/Debug/') . $token) . '.debug';
+        $filename = ((FLOW_PATH_DATA . '/Logs/Debug/') . $token) . '.debug';
         if (file_exists($filename)) {
             $data = file_get_contents($filename);
             return unserialize($data);

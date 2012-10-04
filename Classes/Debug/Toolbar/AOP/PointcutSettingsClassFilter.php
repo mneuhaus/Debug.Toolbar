@@ -2,7 +2,7 @@
 namespace Debug\Toolbar\AOP;
 
 /*                                                                        *
- * This script belongs to the FLOW3 framework.                            *
+ * This script belongs to the Flow framework.                            *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -11,14 +11,14 @@ namespace Debug\Toolbar\AOP;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
-use TYPO3\FLOW3\Annotations as FLOW3;
+use TYPO3\Flow\Annotations as Flow;
 
 /**
  *
- * @FLOW3\Proxy(false)
- * @FLOW3\Scope("singleton")
+ * @Flow\Proxy(false)
+ * @Flow\Scope("singleton")
  */
-class PointcutSettingsClassFilter implements \TYPO3\FLOW3\Aop\Pointcut\PointcutFilterInterface {
+class PointcutSettingsClassFilter implements \TYPO3\Flow\Aop\Pointcut\PointcutFilterInterface {
 
     /**
      * @var boolean
@@ -26,7 +26,7 @@ class PointcutSettingsClassFilter implements \TYPO3\FLOW3\Aop\Pointcut\PointcutF
     protected $cachedResult;
 
     /**
-     * @var \TYPO3\FLOW3\Configuration\ConfigurationManager
+     * @var \TYPO3\Flow\Configuration\ConfigurationManager
      */
     protected $configurationManager;
 
@@ -62,12 +62,12 @@ class PointcutSettingsClassFilter implements \TYPO3\FLOW3\Aop\Pointcut\PointcutF
     /**
      * Injects the configuration manager
      *
-     * @param \TYPO3\FLOW3\Configuration\ConfigurationManager $configurationManager
+     * @param \TYPO3\Flow\Configuration\ConfigurationManager $configurationManager
      * @return void
      */
-    public function injectConfigurationManager(\TYPO3\FLOW3\Configuration\ConfigurationManager $configurationManager) {
+    public function injectConfigurationManager(\TYPO3\Flow\Configuration\ConfigurationManager $configurationManager) {
         $this->configurationManager = $configurationManager;
-        $this->matches = $this->configurationManager->getConfiguration(\TYPO3\FLOW3\Configuration\ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'Debug.Profiling.Classes');
+        $this->matches = $this->configurationManager->getConfiguration(\TYPO3\Flow\Configuration\ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'Debug.Profiling.Classes');
         foreach ($this->matches as $key => $value) {
             $this->matches[$key] = ('/^' . str_replace('\\', '\\\\', $value)) . '$/';
         }
@@ -97,10 +97,10 @@ class PointcutSettingsClassFilter implements \TYPO3\FLOW3\Aop\Pointcut\PointcutF
     /**
      * This method is used to optimize the matching process.
      *
-     * @param \TYPO3\FLOW3\Aop\Builder\ClassNameIndex $classNameIndex
-     * @return \TYPO3\FLOW3\Aop\Builder\ClassNameIndex
+     * @param \TYPO3\Flow\Aop\Builder\ClassNameIndex $classNameIndex
+     * @return \TYPO3\Flow\Aop\Builder\ClassNameIndex
      */
-    public function reduceTargetClassNames(\TYPO3\FLOW3\Aop\Builder\ClassNameIndex $classNameIndex) {
+    public function reduceTargetClassNames(\TYPO3\Flow\Aop\Builder\ClassNameIndex $classNameIndex) {
         return $classNameIndex;
     }
 
