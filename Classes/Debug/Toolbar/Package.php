@@ -29,7 +29,7 @@ class Package extends BasePackage {
 
         $dispatcher->connect(
                 'Debug\Toolbar\Http\RequestHandler', 'aboutToRenderDebugToolbar',
-                'Debug\Toolbar\Debugger\AOPDebugger', 'preToolbarRendering'
+                'Debug\Toolbar\Debugger\AopDebugger', 'preToolbarRendering'
         );
 
         $dispatcher->connect(
@@ -65,7 +65,7 @@ class Package extends BasePackage {
 
         $dispatcher->connect(
                 'TYPO3\Flow\Aop\Advice\AbstractAdvice', 'adviceInvoked',
-                'Debug\Toolbar\Debugger\AOPDebugger', 'collectAdvices'
+                'Debug\Toolbar\Debugger\AopDebugger', 'collectAdvices'
         );
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Debug\Toolbar\AOP;
+namespace Debug\Toolbar\Aop;
 
 /*                                                                        *
  * This script belongs to the Flow framework.                            *

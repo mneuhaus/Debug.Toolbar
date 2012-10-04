@@ -1,5 +1,5 @@
 <?php
-namespace Debug\Toolbar\AOP;
+namespace Debug\Toolbar\Aop;
 
 /*                                                                        *
  * This script belongs to the Flow framework.                            *
@@ -21,22 +21,22 @@ class DataCollectors {
     /**
      * Intercept the Response to attach the Toolbar
      *
-     * @param \TYPO3\Flow\AOP\JoinPointInterface $joinPoint
+     * @param \TYPO3\Flow\Aop\JoinPointInterface $joinPoint
      * @Flow\Before("method(TYPO3\Flow\Http\Response->__construct())")
      * @return void
      */
-    public function catchResponses(\TYPO3\Flow\AOP\JoinPointInterface $joinPoint) {
+    public function catchResponses(\TYPO3\Flow\Aop\JoinPointInterface $joinPoint) {
         $response = $joinPoint->getProxy();
         \Debug\Toolbar\Service\DataStorage::add('Responses', $response);
     }
 
     /**
      *
-     * @param \TYPO3\Flow\AOP\JoinPointInterface $joinPoint
+     * @param \TYPO3\Flow\Aop\JoinPointInterface $joinPoint
      * @Flow\After("method(TYPO3\Flow\Security\Policy\PolicyService->getPrivilegesForJoinPoint(*))")
      * @return void
      */
-    public function collectRoleVotes(\TYPO3\Flow\AOP\JoinPointInterface $joinPoint) {
+    public function collectRoleVotes(\TYPO3\Flow\Aop\JoinPointInterface $joinPoint) {
         $role = $joinPoint->getMethodArgument('role');
         $privileges = $joinPoint->getResult();
         \Debug\Toolbar\Service\DataStorage::add('Security:RoleVotes', array(
@@ -51,14 +51,14 @@ class DataCollectors {
      * @param \TYPO3\Flow\Aop\JoinPointInterface $joinPoint The current join point
      * @return array Result of the target method
      */
-    public function logRoutes(\TYPO3\Flow\AOP\JoinPointInterface $joinPoint) {
+    public function logRoutes(\TYPO3\Flow\Aop\JoinPointInterface $joinPoint) {
         $route = $joinPoint->getProxy();
         \Debug\Toolbar\Service\DataStorage::add('Route:Routes', $route->getUriPattern());
     }
 
     /**
      *
-     * @Flow\Before("filter(Debug\Toolbar\AOP\PointcutSettingsClassFilter)")
+     * @Flow\Before("filter(Debug\Toolbar\Aop\PointcutSettingsClassFilter)")
      * @param \TYPO3\Flow\Aop\JoinPointInterface $joinPoint The current join point
      * @return array Result of the target method
      */
@@ -70,7 +70,7 @@ class DataCollectors {
 
     /**
      *
-     * @Flow\After("filter(Debug\Toolbar\AOP\PointcutSettingsClassFilter)")
+     * @Flow\After("filter(Debug\Toolbar\Aop\PointcutSettingsClassFilter)")
      * @param \TYPO3\Flow\Aop\JoinPointInterface $joinPoint The current join point
      * @return array Result of the target method
      */
@@ -81,11 +81,11 @@ class DataCollectors {
     }
 
     /**
-     * @param \TYPO3\Flow\AOP\JoinPointInterface $joinPoint
+     * @param \TYPO3\Flow\Aop\JoinPointInterface $joinPoint
      * @Flow\Before("method(TYPO3\Flow\Http\RequestHandler->handleRequest())")
      * @return void
      */
-    public function setStartTime(\TYPO3\Flow\AOP\JoinPointInterface $joinPoint) {
+    public function setStartTime(\TYPO3\Flow\Aop\JoinPointInterface $joinPoint) {
         \Debug\Toolbar\Service\DataStorage::set('Runtime:Start', microtime());
     }
 }
