@@ -1,0 +1,16 @@
+<f:for each="{classes}" as="signals" key="class">
+	<f:for each="{signals}" as="slots" key="signal">
+		<table class="table table-striped table-bordered small-break signals">
+			<tr>
+				<th>{class} -> {signal}</td>
+			</tr>
+			<f:for each="{slots}" as="slot">
+			<tr>
+				<td colspan="2" class="indent-left">
+					<f:if condition="{slot.class}">{slot.class} -></f:if> {slot.method}
+				</td>
+			</tr>
+			</f:for>
+		</table>
+	</f:for>
+</f:for>

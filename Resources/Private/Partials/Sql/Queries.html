@@ -1,0 +1,17 @@
+	<table class="table table-striped table-bordered">
+		<tr>
+			<th>Query</th>
+			<th>Execution Time</th>
+		</tr>
+		<f:for each="{queries}" as="query">
+		<tr>
+			<td>
+				<pre><f:format.raw>{query.query}</f:format.raw></pre>
+				<i>{query.origin}</i>
+			</td>
+			<td>
+				{query.time} ms
+			</td>
+		</tr>
+		</f:for>
+	</table>

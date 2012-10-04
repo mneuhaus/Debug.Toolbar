@@ -1,0 +1,22 @@
+<f:for each="{requests}" as="request">
+<table class="table table-striped table-bordered table-borderedtable-definition-style">
+	<tr>
+		<th>
+			{request.controllerPackageKey}.{request.controllerSubpackageKey}:{request.controllerName} :: {request.controllerActionName}
+		</th>
+	</tr>
+	<f:if condition="{request.argumentNamespace}">
+	<tr>
+		<td>
+			<b>Namespace: </b> {request.argumentNamespace}
+		</td>
+	</tr>
+	</f:if>
+	<tr>
+		<td>
+			<i>Arguments</i>
+			<f:render partial="List" arguments="{array: request.arguments}" />
+		</td>
+	</tr>
+</table>
+</f:for>

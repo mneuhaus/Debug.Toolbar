@@ -1,0 +1,47 @@
+<h3>Routes</h3>
+	<table class="table table-striped table-bordered">
+		<f:for each="{routes}" as="route">
+		<tr>
+			<td>{route}</td>
+		</tr>
+		</f:for>
+	</table>
+
+	<h3>Requests</h3>
+	<f:for each="{requests}" as="request">
+	<table class="table table-striped table-bordered">
+		<tr>
+			<td colspan="2"><span class="bubble">{request.controllerPackageKey}.{request.controllerSubpackageKey}:{request.controllerName} :: {request.controllerActionName}</span></td>
+		</tr>
+		<f:if condition="{request.argumentNamespace}">
+		<tr>
+			<td>
+				{request.argumentNamespace}
+			</td>
+		</tr>
+		</f:if>
+		<tr>
+			<td>
+				<b>Arguments</b>
+				<f:render partial="List" arguments="{array: request.arguments}" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>PluginArguments</b>
+				<f:render partial="List" arguments="{array: request.pluginArguments}" />
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>InternalArguments</b>
+				<f:render partial="List" arguments="{array: request.internalArguments}" />
+			</td>
+		</tr>
+	</table>
+	</f:for>
+
+	<f:for each="{arrays}" as="array" key="title">
+	<h3>{title}</h3>
+	<f:render partial="Table" arguments="{array: array}" />
+	</f:for>

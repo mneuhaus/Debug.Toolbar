@@ -1,15 +1,41 @@
-<f:layout name="Default" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:f="urn:flow3:fluid">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Welcome to FLOW3</title>
+<f:base />
+<link rel="stylesheet" type="text/css" href="{f:uri.resource(path: 'Css/Standalone.css', package: 'Debug.Toolbar')}" />
+</head>
+<body>
 
-<f:section name="Title">Index view of Profile controller</f:section>
+<div class="container">
+	<div class="row-fluid">
+		<div class="tabbable tabs-left">
+		  	<ul class="nav nav-tabs">
+				<f:for each="{modules}" as="module">
+					<f:if condition="{module.name} == {currentModule.name}"><f:then><li class="active"></f:then><f:else><li></f:else></f:if>
+						<f:link.action action="index" addQueryString="1" arguments="{token: token, module: module.name}">
+							<f:for each="{module.sections.toolbar.elements}" as="element">
+					    		<f:render partial="{element.type}" arguments="{element.data}" />
+					    	</f:for>
+						</f:link.action>
+					</li>
+				</f:for>
+		  	</ul>
+		  	<div class="tab-content">
+				<f:for each="{currentModule.sections.panel.elements}" as="element">
+					<f:if condition="{element.data.title}">
+					<b>{element.data.title}</b>
+					</f:if>
+					<f:render partial="{element.type}" arguments="{element.data}" />
+				</f:for>
+		  	</div>
+		</div>
+	</div>
+</div>
 
-<f:section name="Content">
-	<h1>A freshly created Fluid template!</h1>
-	<p>Some data set by the controller:</p>
-	<ul>
-		
-		<f:for each="{foos}" as="foo">
-			<li>{foo}</li>
-		</f:for>
-		
-	</ul>
-</f:section>
+</body>
+</html>

@@ -1,27 +1,58 @@
-.debug-toolbar {	
-	@import "../Bootstrap/less/bootstrap.less";
+.debug-toolbar {
+	@import "../Vendor/bootstrap/css/bootstrap.less";
 	@import "Elements.less";
 
-	background: #444;
-	background: #CBCBCB;
-	background-image: -moz-linear-gradient(-90deg, #E8E8E8, #CBCBCB) !important;
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#E8E8E8), to(#CBCBCB)) !important;
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
-	height: 40px;
     font-family: Helvetica;
-    font-size: 13px;
-    line-height: 14px;
-    z-index: 9999;
+    font-size: 12px;
+
+    .nav li:hover .popup {
+        display: block;
+    }
+
+    .popup {
+        max-height: 400px;
+        overflow: auto;
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #bbb;
+        padding: 10px 8px;
+        margin-left: -1px;
+        bottom: 41px;
+        border-bottom: 1px solid #fff;
+        color: #111;
+
+        td, th, p, div, a, span, li, ol, dd, dt {
+            font-size: 11px;
+            line-height: 12px;
+            white-space: nowrap;
+        }
+
+        .small-break {
+            margin-bottom: 10px;
+        }
+    }
+
+    .block-popup-full{
+        width: 800px;
+    }
+
+    .nav a > img {
+        width: auto;
+        height: 22px;
+    }
+
+    .nav a > span.text {
+        vertical-align: -1px;
+    }
+
 	.block {
 		white-space: nowrap;
 		color: #2F2F2F;
 		display: block;
 		min-height: 28px;
 		border-right: 1px solid #E4E4E4;
-		padding: 0;	
+		padding: 0;
 		float: left;
 		cursor: default;
 		position: relative;
@@ -130,6 +161,17 @@
     	margin-bottom: 5px;
     }
 
+    [class^="icon-"], [class*=" icon-"] {
+        background-image: url("../Vendor/bootstrap/img/glyphicons-halflings.png");
+    }
+
+    .nav li a > [class^="icon-"], [class*=" icon-"] {
+        margin-top: 0;
+    }
+
+    .navbar .nav > li > a {
+        padding: 10px;
+    }
 }
 
 body {
