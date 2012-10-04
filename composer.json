@@ -9,6 +9,14 @@
         "typo3/flow": "*",
         "typo3/fluid": "*"
     },
+    "authors": [
+        {
+            "name": "Marc Neuhaus",
+            "email": "apocalip@gmail.com",
+            "homepage": "http://famelo.de",
+            "role": "Developer"
+        }
+    ],
     "autoload": {
         "psr-0": {
             "Debug\\Toolbar": "Classes"
