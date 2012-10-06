@@ -3,7 +3,7 @@ Debug:
     Classes: []
 
 TYPO3:
-  FLOW3:
+  Flow:
     persistence:
       doctrine:
         sqlLogger: Debug\Toolbar\Logger\SqlLogger

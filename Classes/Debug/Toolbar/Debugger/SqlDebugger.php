@@ -57,7 +57,7 @@ class SqlDebugger {
             ->getPopup()
                 ->addPartial('Sql/Statistic', array(
                     'time' => array_sum($times),
-                    'queries' => $queries,
+                    'queries' => $merged,
                     'queriesCount' => count($queries)
                 ))
             ->getPanel()

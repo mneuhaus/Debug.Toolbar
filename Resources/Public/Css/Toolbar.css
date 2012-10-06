@@ -5088,7 +5088,19 @@ html body .debug-toolbar [class*=" icon-"] {
 html body .debug-toolbar .navbar .nav > li > a {
   padding: 10px;
 }
+.debug-toolbar table.table tr td,
+.debug-toolbar table.table tr th {
+  color: black !important;
+}
+.debug-toolbar code,
+.debug-toolbar pre {
+  font-family: Consolas, "Courier New", monospace;
+}
 .t3-ui .debug-toolbar table.table tr {
+  color: black;
+}
+.t3-ui .debug-toolbar table.table th {
+  text-shadow: none;
   color: black;
 }
 .t3-ui .debug-toolbar table.table.table-striped {

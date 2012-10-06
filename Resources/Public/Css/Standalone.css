@@ -4951,3 +4951,7 @@ th {
 .debug-toolbar .array-list {
   margin-left: 0;
 }
+code,
+pre {
+  font-family: Menlo, Consolas, "Courier New", monospace;
+}
