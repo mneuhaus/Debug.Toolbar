@@ -54,6 +54,7 @@ class RequestHandler extends \TYPO3\Flow\Http\RequestHandler {
         $this->boot();
         $this->resolveDependencies();
         $this->request->injectSettings($this->settings);
+        $this->addDebugToolbarRoutes();
         $this->router->setRoutesConfiguration($this->routesConfiguration);
         $actionRequest = $this->router->route($this->request);
         $this->securityContext->setRequest($actionRequest);
@@ -68,6 +69,12 @@ class RequestHandler extends \TYPO3\Flow\Http\RequestHandler {
         $this->bootstrap->shutdown('Runtime');
         $this->exit->__invoke();
         \Debug\Toolbar\Service\DataStorage::save();
+    }
+
+    protected function addDebugToolbarRoutes() {
+        $packageManager = $this->bootstrap->getEarlyInstance('TYPO3\Flow\Package\PackageManagerInterface');
+        $configurationSource = $this->bootstrap->getObjectManager()->get('TYPO3\Flow\Configuration\Source\YamlSource');
+        $this->routesConfiguration = array_merge($this->routesConfiguration, $configurationSource->load($packageManager->getPackage('Debug.Toolbar')->getConfigurationPath() . \TYPO3\Flow\Configuration\ConfigurationManager::CONFIGURATION_TYPE_ROUTES));
     }
 
     /**
