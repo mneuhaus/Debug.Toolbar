@@ -112,7 +112,22 @@ class DataStorage {
         }
         $token = self::$container['Environment:Token'];
         $filename = ((FLOW_PATH_DATA . '/Logs/Debug/') . $token) . '.debug';
-        file_put_contents($filename, serialize(self::$container));
+        $data = self::sanitizeData(self::$container);
+        file_put_contents($filename, serialize($data));
+    }
+
+    static function sanitizeData($data) {
+        switch(true){
+            case is_array($data):
+                foreach ($data as $key => $value) {
+                    $data[$key] = self::sanitizeData($value);
+                }
+                break;
+            case is_object($data) && get_class($data) == "Closure":
+                $data = "[Closure]";
+                break;
+        }
+        return $data;
     }
 
     /**
