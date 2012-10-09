@@ -209,6 +209,21 @@ class Module {
 
         return $this;
     }
+
+    /**
+     * @param string $class
+     */
+    public function setClass($class) {
+        $this->context->setClass($class);
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass() {
+        return $this->context->getClass();
+    }
 }
 
 ?>

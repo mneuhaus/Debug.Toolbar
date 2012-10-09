@@ -52,6 +52,16 @@ class Package extends BasePackage {
                 'Debug\Toolbar\Debugger\SqlDebugger', 'preToolbarRendering'
         );
 
+        // $dispatcher->connect(
+        //         'Debug\Toolbar\Http\RequestHandler', 'aboutToRenderDebugToolbar',
+        //         'Debug\Toolbar\Debugger\DumpDebugger', 'preToolbarRendering'
+        // );
+
+        $dispatcher->connect(
+                'Debug\Toolbar\Http\RequestHandler', 'aboutToRenderDebugToolbar',
+                'Debug\Toolbar\Debugger\LoggingDebugger', 'preToolbarRendering'
+        );
+
 
         $dispatcher->connect(
                 'TYPO3\Flow\Http\Response', 'postProcessResponseContent',

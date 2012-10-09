@@ -4964,8 +4964,42 @@ html body .debug-toolbar .popup dt {
 html body .debug-toolbar .popup .small-break {
   margin-bottom: 10px;
 }
-html body .debug-toolbar .block-popup-full {
-  width: 800px;
+html body .debug-toolbar .popup.fullscreen {
+  left: 0;
+  max-height: none;
+  max-width: none;
+  padding: 0;
+}
+html body .debug-toolbar .popup.fullscreen .nav-tabs {
+  height: 100%;
+}
+html body .debug-toolbar .popup.fullscreen .nav-tabs li {
+  float: none;
+}
+html body .debug-toolbar .panes {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  display: -webkit-box;
+}
+html body .debug-toolbar .panes .inline-help {
+  line-height: 30px;
+}
+html body .debug-toolbar .panes  > .nav {
+  width: 200px;
+  border-right: 1px solid #a7a7a7;
+  overflow: auto;
+  height: 100%;
+  margin-right: 0;
+}
+html body .debug-toolbar .panes  > .nav li a {
+  font-size: 12px;
+}
+html body .debug-toolbar .panes .pane {
+  -webkit-box-flex: 1;
+  background: #f9fbfa;
+  overflow: auto;
+  padding: 20px;
 }
 html body .debug-toolbar .nav a > img {
   width: auto;
@@ -5087,6 +5121,13 @@ html body .debug-toolbar [class*=" icon-"] {
 }
 html body .debug-toolbar .navbar .nav > li > a {
   padding: 10px;
+}
+html body .debug-toolbar pre {
+  white-space: nowrap;
+  overflow: auto;
+}
+html body .debug-toolbar .panes .nav li {
+  float: none;
 }
 .debug-toolbar table.table tr td,
 .debug-toolbar table.table tr th {

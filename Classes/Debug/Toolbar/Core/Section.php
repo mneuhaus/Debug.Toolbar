@@ -19,6 +19,8 @@ use TYPO3\Flow\Annotations as Flow;
 class Section {
     protected $name;
 
+    protected $class = "";
+
     protected $elements = array();
 
     protected $types = array();
@@ -40,6 +42,20 @@ class Section {
     		$this->types[$type] = new Element($type, $defaults);
     	}
     	return $this->types[$type];
+    }
+
+    /**
+     * @param string $class
+     */
+    public function setClass($class) {
+        $this->class = $class;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass() {
+        return $this->class;
     }
 }
 

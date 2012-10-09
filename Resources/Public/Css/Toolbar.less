@@ -33,8 +33,50 @@ html body .debug-toolbar {
         }
     }
 
-    .block-popup-full{
-        width: 800px;
+    .popup.fullscreen {
+        left: 0;
+        max-height: none;
+        max-width: none;
+        padding: 0;
+
+        .nav-tabs {
+            height: 100%;
+
+            li {
+                float: none;
+            }
+
+        }
+    }
+
+    .panes {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: -webkit-box;
+
+        .inline-help {
+            line-height: 30px;
+        }
+
+        & > .nav {
+            width: 200px;
+            border-right: 1px solid #a7a7a7;
+            overflow: auto;
+            height: 100%;
+            margin-right: 0;
+
+            li a {
+                font-size: 12px;
+            }
+        }
+
+        .pane {
+            -webkit-box-flex: 1;
+            background: #f9fbfa;
+            overflow: auto;
+            padding: 20px;
+        }
     }
 
     .nav a > img {
@@ -171,6 +213,19 @@ html body .debug-toolbar {
 
     .navbar .nav > li > a {
         padding: 10px;
+    }
+
+    pre {
+        white-space: nowrap;
+        overflow: auto;
+    }
+
+    .panes{
+        .nav {
+            li {
+                float: none;
+            }
+        }
     }
 }
 
