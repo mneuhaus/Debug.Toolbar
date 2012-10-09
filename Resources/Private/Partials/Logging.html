@@ -57,7 +57,7 @@
 			$(".panes .nav li a").click(function(){
 				var a = $(this);
 				a.parents(".nav").find("li").removeClass("active");
-				a.parents("li").addClass("active");
+				a.parents("li").first().addClass("active");
 				var name = a.attr("data-ref");
 				$(".panes .pane").hide().removeClass("active");
 				$(".pane[data-name='"+name+"']").show().addClass("active");
