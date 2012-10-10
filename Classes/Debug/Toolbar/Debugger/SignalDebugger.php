@@ -30,6 +30,7 @@ class SignalDebugger {
 		$dispatcher = $this->objectManager->get('TYPO3\\Flow\\SignalSlot\\Dispatcher');
 		if (method_exists($dispatcher, 'getSignals')) {
 			$classes = $this->objectManager->get('TYPO3\\Flow\\SignalSlot\\Dispatcher')->getSignals();
+			$classes = $this->sanitize($classes);
 			\Debug\Toolbar\Service\Collector::getModule('Signals')
 				->getToolbar()
 				->addText('Signals')
@@ -45,6 +46,19 @@ class SignalDebugger {
 		}
 	}
 
+	public function sanitize($data) {
+		switch (TRUE) {
+			case is_array($data):
+				foreach ($data as $key => $value) {
+					$data[$key] = $this->sanitize($value);
+				}
+				break;
+			case is_object($data):
+				$data = "[Closure]";
+				break;
+		}
+		return $data;
+	}
 }
 
 ?>
