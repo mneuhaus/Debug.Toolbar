@@ -1,26 +1,26 @@
-<link rel="stylesheet" type="text/css" href="{f:uri.resource(path: 'Css/Toolbar.css', package: 'Debug.Toolbar')}" />
+<link rel="stylesheet" type="text/css" href="{f:uri.resource(path: 'Css/Toolbar.css', package: 'Debug.Toolbar')}"/>
 <div class="debug-toolbar">
 	<div class="navbar navbar-fixed-bottom">
 
 		<div class="navbar-inner">
 			<ul class="nav">
-			<f:for each="{modules}" as="module">
-				<li>
-					<f:link.action action="{module.action}" controller="{module.controller}" package="{module.package}" arguments="{module.arguments}" target="_blank">
-						<f:for each="{module.sections.toolbar.elements}" as="element">
-				    		<f:render partial="{element.type}" arguments="{element.data}" />
-				    	</f:for>
-					</f:link.action>
-					<div class="popup {module.sections.popup.class}">
-						<f:for each="{module.sections.popup.elements}" as="element">
-							<f:if condition="{element.data.title}">
-							<b>{element.data.title}</b>
-							</f:if>
-				    		<f:render partial="{element.type}" arguments="{element.data}" />
-				    	</f:for>
-					</div>
-				</li>
-			</f:for>
+				<f:for each="{modules}" as="module">
+					<li>
+						<f:link.action action="{module.action}" controller="{module.controller}" package="{module.package}" arguments="{module.arguments}" target="_blank">
+							<f:for each="{module.sections.toolbar.elements}" as="element">
+								<f:render partial="{element.type}" arguments="{element.data}"/>
+							</f:for>
+						</f:link.action>
+						<div class="popup {module.sections.popup.class}">
+							<f:for each="{module.sections.popup.elements}" as="element">
+								<f:if condition="{element.data.title}">
+									<b>{element.data.title}</b>
+								</f:if>
+								<f:render partial="{element.type}" arguments="{element.data}"/>
+							</f:for>
+						</div>
+					</li>
+				</f:for>
 			</ul>
 		</div>
 

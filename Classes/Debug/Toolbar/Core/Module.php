@@ -2,7 +2,7 @@
 namespace Debug\Toolbar\Core;
 
 /*                                                                        *
- * This script belongs to the Flow framework.                            *
+ * This script belongs to the FLOW3 package "Debug.Toolbar".              *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -17,213 +17,214 @@ use TYPO3\Flow\Annotations as Flow;
  *
  */
 class Module {
-    protected $name;
+	protected $name;
 
-    protected $priority = 0;
+	protected $priority = 0;
 
-    protected $sections = array();
+	protected $sections = array();
 
-    protected $action = 'index';
-    protected $controller = 'Profile';
-    protected $package = 'Debug.Toolbar';
-    protected $arguments = array();
+	protected $action = 'index';
+	protected $controller = 'Profile';
+	protected $package = 'Debug.Toolbar';
+	protected $arguments = array();
 
-    protected $token;
+	protected $token;
 
-    public function __construct($name) {
-        $this->name = $name;
-        $this->sections = array(
-            'toolbar' => new Section('toolbar'),
-            'popup' => new Section('popup'),
-            'panel' => new Section('panel')
-        );
-        $this->arguments = array(
-            'token' => \Debug\Toolbar\Service\DataStorage::get('Environment:Token'),
-            'module' => $name
-        );
-    }
+	public function __construct($name) {
+		$this->name = $name;
+		$this->sections = array(
+			'toolbar' => new Section('toolbar'),
+			'popup' => new Section('popup'),
+			'panel' => new Section('panel')
+		);
+		$this->arguments = array(
+			'token' => \Debug\Toolbar\Service\DataStorage::get('Environment:Token'),
+			'module' => $name
+		);
+	}
 
-    /**
-     * @param string $name
-     */
-    public function setName($name) {
-        $this->name = $name;
-    }
+	/**
+	 * @param string $name
+	 */
+	public function setName($name) {
+		$this->name = $name;
+	}
 
-    /**
-     * @return string
-     */
-    public function getName() {
-        return $this->name;
-    }
+	/**
+	 * @return string
+	 */
+	public function getName() {
+		return $this->name;
+	}
 
-    public function setPriority($priority) {
-        $this->priority = $priority;
-        return $this;
-    }
+	public function setPriority($priority) {
+		$this->priority = $priority;
+		return $this;
+	}
 
-    public function getPriority() {
-        return $this->priority;
-    }
+	public function getPriority() {
+		return $this->priority;
+	}
 
-    /**
-     * @param string $action
-     */
-    public function setAction($action) {
-        $this->action = $action;
-    }
+	/**
+	 * @param string $action
+	 */
+	public function setAction($action) {
+		$this->action = $action;
+	}
 
-    /**
-     * @return string
-     */
-    public function getAction() {
-        return $this->action;
-    }
+	/**
+	 * @return string
+	 */
+	public function getAction() {
+		return $this->action;
+	}
 
-    /**
-     * @param string $controller
-     */
-    public function setController($controller) {
-        $this->controller = $controller;
-    }
+	/**
+	 * @param string $controller
+	 */
+	public function setController($controller) {
+		$this->controller = $controller;
+	}
 
-    /**
-     * @return string
-     */
-    public function getController() {
-        return $this->controller;
-    }
+	/**
+	 * @return string
+	 */
+	public function getController() {
+		return $this->controller;
+	}
 
-    /**
-     * @param string $package
-     */
-    public function setPackage($package) {
-        $this->package = $package;
-    }
+	/**
+	 * @param string $package
+	 */
+	public function setPackage($package) {
+		$this->package = $package;
+	}
 
-    /**
-     * @return string
-     */
-    public function getPackage() {
-        return $this->package;
-    }
+	/**
+	 * @return string
+	 */
+	public function getPackage() {
+		return $this->package;
+	}
 
-    /**
-     * @param array $arguments
-     */
-    public function setArguments($arguments) {
-        $this->arguments = $arguments;
-    }
+	/**
+	 * @param array $arguments
+	 */
+	public function setArguments($arguments) {
+		$this->arguments = $arguments;
+	}
 
-    /**
-     * @return array
-     */
-    public function getArguments() {
-        return $this->arguments;
-    }
+	/**
+	 * @return array
+	 */
+	public function getArguments() {
+		return $this->arguments;
+	}
 
-    public function getToolbar() {
-        $this->context = $this->sections['toolbar'];
-        return $this;
-    }
+	public function getToolbar() {
+		$this->context = $this->sections['toolbar'];
+		return $this;
+	}
 
-    public function getPopup() {
-        $this->context = $this->sections['popup'];
-        return $this;
-    }
+	public function getPopup() {
+		$this->context = $this->sections['popup'];
+		return $this;
+	}
 
-    public function getPanel() {
-        $this->context = $this->sections['panel'];
-        return $this;
-    }
+	public function getPanel() {
+		$this->context = $this->sections['panel'];
+		return $this;
+	}
 
-    public function getSections() {
-        return $this->sections;
-    }
+	public function getSections() {
+		return $this->sections;
+	}
 
-    public function addBadge($content, $class = 'inverse') {
-        $class = strlen($class) > 0 ? "badge-" . $class : '';
-        $this->context->addElement(new Element('Badge', array(
-            'content' => $content,
-            'class' => $class
-        )));
+	public function addBadge($content, $class = 'inverse') {
+		$class = strlen($class) > 0 ? 'badge-' . $class : '';
+		$this->context->addElement(new Element('Badge', array(
+			'content' => $content,
+			'class' => $class
+		)));
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function addLabel($content, $class = 'inverse') {
-        $class = strlen($class) > 0 ? "label-" . $class : '';
-        $this->context->addElement(new Element('Label', array(
-            'content' => $content,
-            'class' => $class
-        )));
+	public function addLabel($content, $class = 'inverse') {
+		$class = strlen($class) > 0 ? 'label-' . $class : '';
+		$this->context->addElement(new Element('Label', array(
+			'content' => $content,
+			'class' => $class
+		)));
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function addIcon($icon) {
-        $this->context->addElement(new Element('Icon', array(
-            'class' => $icon
-        )));
+	public function addIcon($icon) {
+		$this->context->addElement(new Element('Icon', array(
+			'class' => $icon
+		)));
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function addHtml($content) {
-        $this->context->addElement(new Element('Html', array(
-            'content' => $content
-        )));
+	public function addHtml($content) {
+		$this->context->addElement(new Element('Html', array(
+			'content' => $content
+		)));
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function addText($text) {
-        $this->context->addElement(new Element('Text', array(
-            'text' => $text
-        )));
+	public function addText($text) {
+		$this->context->addElement(new Element('Text', array(
+			'text' => $text
+		)));
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function addTable($array, $title = null, $classes = null) {
-        $this->context->addElement(new Element('Table', array(
-            'array' => $array,
-            'title' => $title,
-            'classes' => $classes
-        )));
+	public function addTable($array, $title = NULL, $classes = NULL) {
+		$this->context->addElement(new Element('Table', array(
+			'array' => $array,
+			'title' => $title,
+			'classes' => $classes
+		)));
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function addList($array, $title = null) {
-        $this->context->addElement(new Element('List', array(
-            'array' => $array,
-            'title' => $title
-        )));
+	public function addList($array, $title = NULL) {
+		$this->context->addElement(new Element('List', array(
+			'array' => $array,
+			'title' => $title
+		)));
 
-        return $this;
-    }
+		return $this;
+	}
 
-    public function addPartial($partial, $arguments) {
-        $this->context->addElement(new Element($partial, $arguments));
+	public function addPartial($partial, $arguments) {
+		$this->context->addElement(new Element($partial, $arguments));
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * @param string $class
-     */
-    public function setClass($class) {
-        $this->context->setClass($class);
-        return $this;
-    }
+	/**
+	 * @param string $class
+	 * @return \Debug\Toolbar\Core\Module
+	 */
+	public function setClass($class) {
+		$this->context->setClass($class);
+		return $this;
+	}
 
-    /**
-     * @return string
-     */
-    public function getClass() {
-        return $this->context->getClass();
-    }
+	/**
+	 * @return string
+	 */
+	public function getClass() {
+		return $this->context->getClass();
+	}
 }
 
 ?>
