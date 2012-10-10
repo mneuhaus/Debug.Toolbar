@@ -2,7 +2,7 @@
 namespace Debug\Toolbar\Debugger;
 
 /*                                                                        *
- * This script belongs to the Flow framework.                            *
+ * This script belongs to the FLOW3 package "Debug.Toolbar".              *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -17,17 +17,17 @@ use TYPO3\Flow\Annotations as Flow;
  */
 class TipsDebugger extends AbstractDebugger {
 
-    /**
-    * TODO: Document this Method!
-    */
-    public function assignVariables() {
-        $this->view->assign('tips', $this->get('tips'));
-    }
+	/**
+	 * TODO: Document this Method!
+	 */
+	public function assignVariables() {
+		$this->view->assign('tips', $this->get('tips'));
+	}
 
 
-    public function add($message, $group) {
-        \Debug\Toolbar\Service\DataStorage::get('Tips:Tips', $group, $message);
-    }
+	public function add($message, $group) {
+		\Debug\Toolbar\Service\DataStorage::get('Tips:Tips', $group, $message);
+	}
 }
 
 ?>

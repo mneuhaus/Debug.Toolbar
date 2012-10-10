@@ -2,7 +2,7 @@
 namespace Debug\Toolbar\Core;
 
 /*                                                                        *
- * This script belongs to the Flow framework.                            *
+ * This script belongs to the FLOW3 package "Debug.Toolbar".              *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -17,26 +17,26 @@ use TYPO3\Flow\Annotations as Flow;
  *
  */
 class Element {
-    protected $type;
+	protected $type;
 
-    protected $data;
+	protected $data;
 
-    public function __construct($type, $data) {
-        $this->type = $type;
-        $this->data = $data;
-    }
+	public function __construct($type, $data) {
+		$this->type = $type;
+		$this->data = $data;
+	}
 
-    public function getType() {
-    	return $this->type;
-    }
+	public function getType() {
+		return $this->type;
+	}
 
-    public function getData() {
-    	return $this->data;
-    }
+	public function getData() {
+		return $this->data;
+	}
 
-    public function setData($data) {
-        $this->data = $data;
-    }
+	public function setData($data) {
+		$this->data = $data;
+	}
 }
 
 ?>

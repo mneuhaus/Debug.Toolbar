@@ -2,7 +2,7 @@
 namespace Debug\Toolbar\Debugger;
 
 /*                                                                        *
- * This script belongs to the Flow framework.                            *
+ * This script belongs to the FLOW3 package "Debug.Toolbar".              *
  *                                                                        *
  * It is free software; you can redistribute it and/or modify it under    *
  * the terms of the GNU Lesser General Public License, either version 3   *
@@ -17,12 +17,12 @@ use TYPO3\Flow\Annotations as Flow;
  */
 class RouteDebugger extends AbstractDebugger {
 
-    /**
-    * TODO: Document this Method! ( assignVariables )
-    */
-    public function assignVariables() {
-        $this->view->assign('routes', \Debug\Toolbar\Service\DataStorage::get('Route:Routes'));
-    }
+	/**
+	 * TODO: Document this Method! ( assignVariables )
+	 */
+	public function assignVariables() {
+		$this->view->assign('routes', \Debug\Toolbar\Service\DataStorage::get('Route:Routes'));
+	}
 
 }
 
