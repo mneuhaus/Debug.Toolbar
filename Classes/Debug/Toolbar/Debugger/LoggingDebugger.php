@@ -50,6 +50,8 @@ class LoggingDebugger {
 			->addText('Logging')
 			->getPopup()
 			->setClass('fullscreen')
+			->addPartial('Logging', array('logs' => $logs))
+			->getPanel()
 			->addPartial('Logging', array('logs' => $logs));
 	}
 
