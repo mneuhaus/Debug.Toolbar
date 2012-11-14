@@ -63,7 +63,11 @@ class RequestHandler extends \TYPO3\Flow\Http\RequestHandler {
 		\Debug\Toolbar\Toolbar\View::handleRedirects($this->request, $this->response);
 		$this->emitAboutToRenderDebugToolbar();
 		\Debug\Toolbar\Service\DataStorage::set('Modules', \Debug\Toolbar\Service\Collector::getModules());
-		echo \Debug\Toolbar\Toolbar\View::attachToolbar($this->response->getContent());
+		if ($actionRequest->getFormat() === 'html') {
+			echo \Debug\Toolbar\Toolbar\View::attachToolbar($this->response->getContent());
+		} else {
+			echo $this->response->getContent();
+		}
 		$this->bootstrap->shutdown('Runtime');
 		$this->exit->__invoke();
 		\Debug\Toolbar\Service\DataStorage::save();
