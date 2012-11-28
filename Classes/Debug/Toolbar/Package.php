@@ -14,7 +14,7 @@ class Package extends BasePackage {
 		$bootstrap->registerRequestHandler(new \Debug\Toolbar\Http\RequestHandler($bootstrap));
 
 		if (!file_exists(FLOW_PATH_DATA . 'Logs/Debug')) {
-			mkdir(FLOW_PATH_DATA . 'Logs/Debug');
+			\TYPO3\Flow\Utility\Files::createDirectoryRecursively(FLOW_PATH_DATA . 'Logs/Debug');
 		}
 
 		\Debug\Toolbar\Service\DataStorage::init();
