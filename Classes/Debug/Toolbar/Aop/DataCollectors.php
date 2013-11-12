@@ -29,6 +29,24 @@ class DataCollectors {
 		$response = $joinPoint->getProxy();
 		\Debug\Toolbar\Service\DataStorage::add('Responses', $response);
 	}
+	/**
+	 * Intercept the effective view configurations
+	 *
+	 * @param \TYPO3\Flow\Aop\JoinPointInterface $joinPoint
+	 * @Flow\Around("method(TYPO3\Flow\Mvc\ViewConfigurationManager->getViewConfiguration(*))")
+	 * @return void
+	 */
+	public function catchViews(\TYPO3\Flow\Aop\JoinPointInterface $joinPoint) {
+		$request = $joinPoint->getMethodArgument('request');
+		$viewConfiguration = $joinPoint->getAdviceChain()->proceed($joinPoint);
+
+		\Debug\Toolbar\Service\DataStorage::add('Views', array(
+			'viewConfiguration' => $viewConfiguration,
+			'request' => $request
+		));
+
+		return $viewConfiguration;
+	}
 
 	/**
 	 *

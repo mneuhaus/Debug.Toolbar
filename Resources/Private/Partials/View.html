@@ -1,0 +1,30 @@
+<f:for each="{views}" as="view">
+<table class="table table-striped table-bordered table-borderedtable-definition-style">
+	<tr>
+		<th>
+			{view.request.controllerPackageKey}.{view.request.controllerSubpackageKey}:{view.request.controllerName} :: {view.request.controllerActionName}
+		</th>
+	</tr>
+	<tr>
+		<td>
+			<ul>
+				<li>isPackage("{view.request.controllerPackageKey}")</li>
+				<li>isSubPackage("{view.request.controllerSubpackageKey}")</li>
+				<li>isController("{view.request.controllerName}")</li>
+				<li>isAction("{view.request.controllerActionName}")</li>
+				<li>isFormat("{view.request.format}")</li>
+				<f:if condition="{view.request} != {view.request.mainRequest}">
+					<li style="margin-top: 10px;">parentRequest.isPackage("{view.request.parentRequest.controllerPackageKey}")</li>
+					<li>parentRequest.isSubPackage("{view.request.parentRequest.controllerSubpackageKey}")</li>
+					<li>parentRequest.isController("{view.request.parentRequest.controllerName}")</li>
+					<li>parentRequest.isAction("{view.request.parentRequest.controllerActionName}")</li>
+					<li>parentRequest.isFormat("{view.request.parentRequest.format}")</li>
+				</f:if>
+			</ul>
+			<hr />
+			<p><strong>Effective ViewConfiguration (without defaults)</strong></p>
+			<f:render partial="Table" arguments="{array: view.viewConfiguration.options}" />
+		</td>
+	</tr>
+</table>
+</f:for>

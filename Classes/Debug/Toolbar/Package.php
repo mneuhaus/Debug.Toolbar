@@ -29,6 +29,11 @@ class Package extends BasePackage {
 
 		$dispatcher->connect(
 			'Debug\Toolbar\Http\RequestHandler', 'aboutToRenderDebugToolbar',
+			'Debug\Toolbar\Debugger\ViewsDebugger', 'preToolbarRendering'
+		);
+
+		$dispatcher->connect(
+			'Debug\Toolbar\Http\RequestHandler', 'aboutToRenderDebugToolbar',
 			'Debug\Toolbar\Debugger\AopDebugger', 'preToolbarRendering'
 		);
 
