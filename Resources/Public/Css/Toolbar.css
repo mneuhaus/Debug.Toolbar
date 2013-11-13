@@ -3473,6 +3473,8 @@ html body .debug-toolbar .navbar {
   margin-bottom: 20px;
   overflow: visible;
   color: #777777;
+  min-height: 40px;
+  border: none;
 }
 html body .debug-toolbar .navbar-inner {
   min-height: 40px;
