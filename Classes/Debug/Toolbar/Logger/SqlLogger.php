@@ -10,12 +10,18 @@ namespace Debug\Toolbar\Logger;
  *                                                                        *
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
+use Debug\Toolbar\Service\DataStorage;
 
 /**
  * A SQL logger that logs to a Flow logger.
  *
  */
-class SqlLogger implements \Doctrine\DBAL\Logging\SQLLogger {
+class SqlLogger extends \TYPO3\Flow\Persistence\Doctrine\Logging\SQLLogger {
+
+	/**
+	 * @var float
+	 */
+	protected $start;
 
 	/**
 	 * Logs a SQL statement to the system logger (DEBUG priority).
@@ -26,10 +32,11 @@ class SqlLogger implements \Doctrine\DBAL\Logging\SQLLogger {
 	 * @return void
 	 */
 	public function startQuery($sql, array $params = NULL, array $types = NULL) {
-		$this->start = microtime();
-		\Debug\Toolbar\Service\DataStorage::add('SqlLogger:Queries', $sql);
-		\Debug\Toolbar\Service\DataStorage::add('SqlLogger:Params', $params);
-		\Debug\Toolbar\Service\DataStorage::add('SqlLogger:Types', $types);
+		parent::startQuery($sql, $params, $types);
+		$this->start = microtime(TRUE);
+		DataStorage::add('SqlLogger:Queries', $sql);
+		DataStorage::add('SqlLogger:Params', $params);
+		DataStorage::add('SqlLogger:Types', $types);
 		$backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		foreach ($backtrace as $key => $value) {
 			if ($key == 0) {
@@ -44,7 +51,7 @@ class SqlLogger implements \Doctrine\DBAL\Logging\SQLLogger {
 			if (stristr($value['class'], 'TYPO3\\Flow')) {
 				continue;
 			}
-			\Debug\Toolbar\Service\DataStorage::add('SqlLogger:Origins', $value);
+			DataStorage::add('SqlLogger:Origins', $value);
 		}
 	}
 
@@ -52,8 +59,8 @@ class SqlLogger implements \Doctrine\DBAL\Logging\SQLLogger {
 	 * @return void
 	 */
 	public function stopQuery() {
-		$time = microtime() - $this->start;
-		\Debug\Toolbar\Service\DataStorage::add('SqlLogger:Times', $time);
+		$time = microtime(TRUE) - $this->start;
+		DataStorage::add('SqlLogger:Times', $time);
 	}
 
 }
