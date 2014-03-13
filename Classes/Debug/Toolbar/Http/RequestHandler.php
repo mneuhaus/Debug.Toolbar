@@ -11,9 +11,13 @@ namespace Debug\Toolbar\Http;
  * The TYPO3 project - inspiring people to share!                         *
  *                                                                        */
 
+use Debug\Toolbar\Service\Collector;
+use Debug\Toolbar\Service\DataStorage;
+use Debug\Toolbar\Toolbar\View;
 use TYPO3\Flow\Annotations as Flow;
-use TYPO3\Flow\Core\Bootstrap;
-use TYPO3\Flow\Configuration\ConfigurationManager;
+use TYPO3\Flow\Http\Request;
+use TYPO3\Flow\Http\Response;
+use TYPO3\Flow\Mvc\ActionRequest;
 
 /**
  * A request handler which can handle HTTP requests.
@@ -22,12 +26,6 @@ use TYPO3\Flow\Configuration\ConfigurationManager;
  * @Flow\Proxy("disable")
  */
 class RequestHandler extends \TYPO3\Flow\Http\RequestHandler {
-
-	/**
-	 * @Flow\Inject
-	 * @var \TYPO3\Flow\Session\SessionInterface
-	 */
-	protected $session;
 
 	/**
 	 * Returns the priority - how eager the handler is to actually handle the
@@ -47,40 +45,47 @@ class RequestHandler extends \TYPO3\Flow\Http\RequestHandler {
 	 */
 	public function handleRequest() {
 			// Create the request very early so the Resource Management has a chance to grab it:
-		$this->request = \TYPO3\Flow\Http\Request::createFromEnvironment();
-		$this->response = new \TYPO3\Flow\Http\Response();
+		$this->request = Request::createFromEnvironment();
+		$this->response = new Response();
+
 		$this->boot();
 		$this->resolveDependencies();
 		$this->request->injectSettings($this->settings);
-		$this->addDebugToolbarRoutes();
+
 		$this->router->setRoutesConfiguration($this->routesConfiguration);
 		$actionRequest = $this->router->route($this->request);
 		$this->securityContext->setRequest($actionRequest);
+
 		$this->dispatcher->dispatch($actionRequest, $this->response);
+
 		$this->response->makeStandardsCompliant($this->request);
-		\Debug\Toolbar\Service\DataStorage::add('Request:Requests', $actionRequest);
-		\Debug\Toolbar\Service\DataStorage::add('Request:Responses', $this->response);
-		\Debug\Toolbar\Toolbar\View::handleRedirects($this->request, $this->response);
-		$this->emitAboutToRenderDebugToolbar();
-		\Debug\Toolbar\Service\DataStorage::set('Modules', \Debug\Toolbar\Service\Collector::getModules());
-		if ($actionRequest->getFormat() === 'html') {
-			$content = \Debug\Toolbar\Toolbar\View::attachToolbar($this->response->getContent());
-			$this->response->getHeaders()->set('Content-Length', strlen($content));
-			$this->response->sendHeaders();
-			echo $content;
-		} else {
-			$this->response->sendHeaders();
-			echo $this->response->getContent();
-		}
+		$this->attachToolbar($actionRequest);
+		$this->response->send();
+
 		$this->bootstrap->shutdown('Runtime');
 		$this->exit->__invoke();
-		\Debug\Toolbar\Service\DataStorage::save();
+
+		DataStorage::save();
 	}
 
-	protected function addDebugToolbarRoutes() {
-		$packageManager = $this->bootstrap->getEarlyInstance('TYPO3\Flow\Package\PackageManagerInterface');
-		$configurationSource = $this->bootstrap->getObjectManager()->get('TYPO3\Flow\Configuration\Source\YamlSource');
-		$this->routesConfiguration = array_merge($this->routesConfiguration, $configurationSource->load($packageManager->getPackage('Debug.Toolbar')->getConfigurationPath() . \TYPO3\Flow\Configuration\ConfigurationManager::CONFIGURATION_TYPE_ROUTES));
+	/**
+	 * @param ActionRequest $actionRequest
+	 */
+	protected function attachToolbar(ActionRequest $actionRequest) {
+		if ($actionRequest->getControllerObjectName() === 'Debug\Toolbar\Controller\ProfileController') {
+			return;
+		}
+		
+		DataStorage::add('Request:Requests', $actionRequest);
+		DataStorage::add('Request:Responses', $this->response);
+		View::handleRedirects($this->request, $this->response);
+		$this->emitAboutToRenderDebugToolbar();
+		DataStorage::set('Modules', Collector::getModules());
+		if ($actionRequest->getFormat() === 'html') {
+			$content = View::attachToolbar($this->response->getContent());
+			$this->response->setContent($content);
+			$this->response->getHeaders()->set('Content-Length', strlen($content));
+		}
 	}
 
 	/**
