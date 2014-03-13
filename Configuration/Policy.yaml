@@ -1,0 +1,11 @@
+resources:
+
+  methods:
+    Debug_Toolbar_ProfileController:
+      'method(Debug\Toolbar\Controller\ProfileController->(index|test)Action())'
+
+acls:
+
+  Everybody:
+    methods:
+      Debug_Toolbar_ProfileController:    GRANT
