@@ -1,1 +1,14 @@
-{"name":"debug\/toolbar","type":"typo3-flow-package","description":"","version":"","require":{"typo3\/flow":"*"},"autoload":{"psr-0":{"Debug\\Toolbar":"Classes"}}}
+{
+	"name": "debug/toolbar",
+	"type": "typo3-flow-package",
+	"description": "",
+	"version": "",
+	"require": {
+		"typo3/flow": "*"
+	},
+	"autoload": {
+		"psr-0": {
+			"Debug\\Toolbar": "Classes"
+		}
+	}
+}
