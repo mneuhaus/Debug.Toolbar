@@ -75,13 +75,13 @@ class RequestHandler extends \TYPO3\Flow\Http\RequestHandler {
 		if ($actionRequest->getControllerObjectName() === 'Debug\Toolbar\Controller\ProfileController') {
 			return;
 		}
-		
+
 		DataStorage::add('Request:Requests', $actionRequest);
 		DataStorage::add('Request:Responses', $this->response);
 		View::handleRedirects($this->request, $this->response);
 		$this->emitAboutToRenderDebugToolbar();
 		DataStorage::set('Modules', Collector::getModules());
-		if ($actionRequest->getFormat() === 'html') {
+		if ($actionRequest->getFormat() === 'html' && stristr($this->response->getHeader('Content-Type'), 'text/html') !== FALSE) {
 			$content = View::attachToolbar($this->response->getContent());
 			$this->response->setContent($content);
 			$this->response->getHeaders()->set('Content-Length', strlen($content));
