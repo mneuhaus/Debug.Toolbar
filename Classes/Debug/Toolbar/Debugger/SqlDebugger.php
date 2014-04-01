@@ -93,14 +93,15 @@ class SqlDebugger {
 				if (isset($value['types'][$position])) {
 					switch ($value['types'][$position]) {
 						case 'string':
-							$newQuery .= ('"<b>' . $value['params'][$position]) . '</b>"';
+							$newQuery .= ('"' . $value['params'][$position]) . '"';
 							break;
 						default:
 							break;
 					}
 				}
 			}
-			$newQuery = str_replace(array_keys($keywords), array_values($keywords), $newQuery);
+			// $newQuery = str_replace(array_keys($keywords), array_values($keywords), $newQuery);
+			$newQuery = \SqlFormatter::format($newQuery);
 			$merged[$key]['query'] = $newQuery;
 		}
 		return $merged;

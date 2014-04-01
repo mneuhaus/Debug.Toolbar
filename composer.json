@@ -4,7 +4,8 @@
 	"description": "",
 	"version": "",
 	"require": {
-		"typo3/flow": "*"
+		"typo3/flow": "*",
+		"jdorn/sql-formatter": "*"
 	},
 	"autoload": {
 		"psr-0": {

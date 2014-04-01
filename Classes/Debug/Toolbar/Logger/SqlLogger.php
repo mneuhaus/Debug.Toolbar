@@ -16,7 +16,7 @@ use Debug\Toolbar\Service\DataStorage;
  * A SQL logger that logs to a Flow logger.
  *
  */
-class SqlLogger extends \TYPO3\Flow\Persistence\Doctrine\Logging\SQLLogger {
+class SqlLogger extends \TYPO3\Flow\Persistence\Doctrine\Logging\SqlLogger {
 
 	/**
 	 * @var float
