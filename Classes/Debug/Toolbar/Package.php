@@ -11,6 +11,10 @@ use TYPO3\Flow\Annotations as Flow;
  */
 class Package extends BasePackage {
 	public function boot(\TYPO3\Flow\Core\Bootstrap $bootstrap) {
+		if (!$bootstrap->getContext()->isDevelopment()) {
+			return;
+		}
+
 		$bootstrap->registerRequestHandler(new \Debug\Toolbar\Http\RequestHandler($bootstrap));
 
 		if (!file_exists(FLOW_PATH_DATA . 'Logs/Debug')) {
