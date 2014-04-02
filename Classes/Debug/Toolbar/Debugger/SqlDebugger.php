@@ -41,7 +41,7 @@ class SqlDebugger {
 				}
 				$merged[$key] = array(
 					'query' => $value,
-					'time' => number_format($times[$key] * 1000, 2),
+					'time' => isset($times[$key]) ? number_format($times[$key] * 1000, 2) : '-',
 					'origin' => $origin,
 					'params' => $params[$key],
 					'types' => $types[$key]
