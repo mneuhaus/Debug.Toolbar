@@ -16,7 +16,7 @@ use TYPO3\Flow\Annotations as Flow;
 /**
  * @Flow\Scope("singleton")
  */
-class AOPDebugger {
+class AopDebugger {
 
 	/**
 	 * @var \TYPO3\Flow\Reflection\ReflectionService
