@@ -10,3 +10,12 @@ TYPO3:
     # error:
     #   exceptionHandler:
     #     className: 'Debug\Toolbar\Error\DebugExceptionHandler'
+
+    http:
+      chain:
+
+        'postprocess':
+          chain:
+            'toolbar':
+              position: 'end'
+              component: 'Debug\Toolbar\Http\ToolbarComponent'
